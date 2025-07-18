@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora LEES Print - Comparación de Costos Radiológicos</title>
+    <link rel="stylesheet" href="calculadora.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-section">
+                <h1>LEES DICOM PRINT</h1>
+                <p>Calculadora de Comparación de Costos - PET vs Papel Fotográfico</p>
+            </div>
+            <div class="header-controls">
+                <div class="currency-selector">
+                    <label for="currency-toggle">Moneda:</label>
+                    <select id="currency-toggle" class="currency-select">
+                        <option value="PEN">Soles (PEN)</option>
+                        <option value="USD">Dólares (USD)</option>
+                        <option value="BOTH">Ambas</option>
+                    </select>
+                </div>
+                <div class="exchange-rate-info">
+                    <span id="exchange-rate-display">Cargando tipo de cambio...</span>
+                    <button id="refresh-rate" class="refresh-btn" title="Actualizar tipo de cambio">🔄</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="calculator-wrapper">
+            <div class="loading-overlay" id="loading-overlay">
+                <div class="spinner"></div>
+                <p>Cargando datos de tipo de cambio...</p>
+            </div>
+
+
+            <table class="calculator-table">
+                <thead>
+                    <tr>
+                        <th class="concept-header">Concepto</th>
+                        <th class="modality-header tc-header">Tomografía (TC)</th>
+                        <th class="modality-header mg-header">Mamografía (MG)</th>
+                        <th class="modality-header rm-header">Resonancia Magnética (RM)</th>
+                        <th class="modality-header rx-header">Rayos X (RX)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Cantidad de Imágenes -->
+                    <tr class="input-row">
+                        <td class="concept-cell">Cantidad de Imágenes Impresas al Mes:</td>
+                        <td class="input-cell">
+                            <input type="number" id="cantidad-tc" class="quantity-input" min="0" step="1" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="cantidad-mg" class="quantity-input" min="0" step="1" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="cantidad-rm" class="quantity-input" min="0" step="1" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="cantidad-rx" class="quantity-input" min="0" step="1" placeholder="0">
+                        </td>
+                    </tr>
+
+                    <!-- Formato de Impresión -->
+                    <tr class="input-row">
+                        <td class="concept-cell">Formato de Impresión:</td>
+                        <td class="input-cell">
+                            <select id="formato-tc" class="format-select">
+                                <option value="A3">A3</option>
+                            </select>
+                        </td>
+                        <td class="input-cell">
+                            <select id="formato-mg" class="format-select">
+                                <option value="A3">A3</option>
+                            </select>
+                        </td>
+                        <td class="input-cell">
+                            <select id="formato-rm" class="format-select">
+                                <option value="A3">A3</option>
+                            </select>
+                        </td>
+                        <td class="input-cell">
+                            <select id="formato-rx" class="format-select">
+                                <option value="A4">A4</option>
+                                <option value="A3">A3</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <!-- Tipo de Impresión -->
+                    <tr class="input-row">
+                        <td class="concept-cell">Tipo de Impresión:</td>
+                        <td class="input-cell">
+                            <select id="tipo-tc" class="type-select">
+                                <option value="BN">Blanco y Negro</option>
+                                <option value="COLOR">Color</option>
+                                <option value="MIXTO">Mixto (80% B/N - 20% Color)</option>
+                            </select>
+                        </td>
+                        <td class="input-cell">
+                            <select id="tipo-mg" class="type-select">
+                                <option value="BN">Blanco y Negro</option>
+                            </select>
+                        </td>
+                        <td class="input-cell">
+                            <select id="tipo-rm" class="type-select">
+                                <option value="BN">Blanco y Negro</option>
+                                <option value="COLOR">Color</option>
+                                <option value="MIXTO">Mixto (80% B/N - 20% Color)</option>
+                            </select>
+                        </td>
+                        <td class="input-cell">
+                            <select id="tipo-rx" class="type-select">
+                                <option value="COLOR">Color</option>
+                            </select>
+                        </td>
+                    </tr>
+
+                    <!-- Costo LEES Print -->
+                    <tr class="output-row lees-row">
+                        <td class="concept-cell lees-label">Costo LEES Print (tinta + papel):</td>
+                        <td class="output-cell">
+                            <span id="costo-lees-tc" class="currency-value lees-value">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="costo-lees-mg" class="currency-value lees-value">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="costo-lees-rm" class="currency-value lees-value">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="costo-lees-rx" class="currency-value lees-value">S/ 0.00</span>
+                        </td>
+                    </tr>
+
+                    <!-- Costo PET Tradicional -->
+                    <tr class="output-row pet-row">
+                        <td class="concept-cell pet-label">Costo Placas PET Tradicionales:</td>
+                        <td class="output-cell">
+                            <span id="costo-pet-tc" class="currency-value pet-value">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="costo-pet-mg" class="currency-value pet-value">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="costo-pet-rm" class="currency-value pet-value">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="costo-pet-rx" class="currency-value pet-value">S/ 0.00</span>
+                        </td>
+                    </tr>
+
+                    <!-- Costo Total Mensual LEES -->
+                    <tr class="output-row total-row lees-total-row">
+                        <td class="concept-cell">Costo Total Mensual con LEES Print:</td>
+                        <td class="output-cell">
+                            <span id="total-lees-tc" class="currency-value total-value lees-total">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="total-lees-mg" class="currency-value total-value lees-total">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="total-lees-rm" class="currency-value total-value lees-total">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="total-lees-rx" class="currency-value total-value lees-total">S/ 0.00</span>
+                        </td>
+                    </tr>
+
+                    <!-- Costo Total Mensual PET -->
+                    <tr class="output-row total-row pet-total-row">
+                        <td class="concept-cell">Costo Total Mensual con Placas PET:</td>
+                        <td class="output-cell">
+                            <span id="total-pet-tc" class="currency-value total-value pet-total">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="total-pet-mg" class="currency-value total-value pet-total">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="total-pet-rm" class="currency-value total-value pet-total">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell">
+                            <span id="total-pet-rx" class="currency-value total-value pet-total">S/ 0.00</span>
+                        </td>
+                    </tr>
+
+                    <!-- Ahorro por Impresión -->
+                    <tr class="output-row savings-row">
+                        <td class="concept-cell savings-label">AHORRO por Impresión con LEES Print:</td>
+                        <td class="output-cell savings-cell">
+                            <span id="ahorro-unit-tc" class="currency-value savings-value">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell savings-cell">
+                            <span id="ahorro-unit-mg" class="currency-value savings-value">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell savings-cell">
+                            <span id="ahorro-unit-rm" class="currency-value savings-value">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell savings-cell">
+                            <span id="ahorro-unit-rx" class="currency-value savings-value">S/ 0.00</span>
+                        </td>
+                    </tr>
+
+                    <!-- Ahorro Total Mensual -->
+                    <tr class="output-row savings-row total-savings-row">
+                        <td class="concept-cell savings-label">AHORRO TOTAL MENSUAL con LEES Print:</td>
+                        <td class="output-cell savings-cell">
+                            <span id="ahorro-total-tc" class="currency-value savings-value total-savings">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell savings-cell">
+                            <span id="ahorro-total-mg" class="currency-value savings-value total-savings">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell savings-cell">
+                            <span id="ahorro-total-rm" class="currency-value savings-value total-savings">S/ 0.00</span>
+                        </td>
+                        <td class="output-cell savings-cell">
+                            <span id="ahorro-total-rx" class="currency-value savings-value total-savings">S/ 0.00</span>
+                        </td>
+                    </tr>
+
+                    <!-- Porcentaje de Ahorro -->
+                    <tr class="output-row percentage-row">
+                        <td class="concept-cell percentage-label">Porcentaje de Ahorro:</td>
+                        <td class="output-cell percentage-cell">
+                            <span id="porcentaje-tc" class="percentage-value">0%</span>
+                        </td>
+                        <td class="output-cell percentage-cell">
+                            <span id="porcentaje-mg" class="percentage-value">0%</span>
+                        </td>
+                        <td class="output-cell percentage-cell">
+                            <span id="porcentaje-rm" class="percentage-value">0%</span>
+                        </td>
+                        <td class="output-cell percentage-cell">
+                            <span id="porcentaje-rx" class="percentage-value">0%</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Sección de Resumen -->
+            <div class="summary-section">
+                <h2>Resumen General Comparativo</h2>
+                <div class="summary-grid">
+                    <div class="summary-card lees-summary">
+                        <h3>Con LEES DICOM PRINT</h3>
+                        <div class="summary-values">
+                            <div class="summary-item">
+                                <span class="label">Costo Total Mensual:</span>
+                                <span id="resumen-lees-total" class="value lees-highlight">S/ 0.00</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Costo Anual Proyectado:</span>
+                                <span id="resumen-lees-anual" class="value lees-highlight">S/ 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card pet-summary">
+                        <h3>Con Placas PET Tradicionales</h3>
+                        <div class="summary-values">
+                            <div class="summary-item">
+                                <span class="label">Costo Total Mensual:</span>
+                                <span id="resumen-pet-total" class="value pet-highlight">S/ 0.00</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Costo Anual Proyectado:</span>
+                                <span id="resumen-pet-anual" class="value pet-highlight">S/ 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card savings-summary">
+                        <h3>Ahorros con LEES Print</h3>
+                        <div class="summary-values">
+                            <div class="summary-item">
+                                <span class="label">Ahorro Mensual:</span>
+                                <span id="resumen-ahorro-mensual" class="value savings-highlight">S/ 0.00</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Ahorro Anual:</span>
+                                <span id="resumen-ahorro-anual" class="value savings-highlight">S/ 0.00</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="label">Porcentaje de Ahorro:</span>
+                                <span id="resumen-porcentaje-total" class="value savings-highlight">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- Controles -->
+            <div class="controls-section">
+                <button id="export-btn" class="export-button">
+                    Exportar Comparación Completa
+                </button>
+                <button id="reset-btn" class="reset-button">
+                    Limpiar Calculadora
+                </button>
+            </div>
+        </div>
+
+        <!-- Error Modal -->
+        <div id="error-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Error de Conexión</h3>
+                <p id="error-message">No se pudo obtener el tipo de cambio actual. Usando tipo de cambio de respaldo: 1 USD = 3.70 PEN</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2024 LEES DICOM PRINT - Revolución en Impresión Radiológica</p>
+            <p class="disclaimer">Los cálculos están basados en precios reales del mercado y datos técnicos de LEES DICOM PRINT.</p>
+        </footer>
+    </div>
+
+    <script src="calculadora.js"></script>
+</body>
+</html>
