@@ -78,28 +78,28 @@
 
 /* Color headers */
 .negro-header {
-  background: #1a1a1a !important;
+  background: #06080f !important;
 }
 
 .gris-header {
-  background: #7f8c8d !important;
+  background: #808080 !important;
 }
 
 .cyan-header {
-  background: #3498db !important;
+  background: #00B7EB!important;
 }
 
 .amarillo-header {
-  background: #f1c40f !important;
+  background: #FFEB00 !important;
   color: #2c3e50 !important;
 }
 
 .magenta-header {
-  background: #9b59b6 !important;
+  background: #EB008C!important;
 }
 
 .black-header {
-  background: #2c2c2c !important;
+  background: #000000 !important;
 }
 
 /* Table cells */
@@ -211,27 +211,27 @@
 }
 
 .negro-bottle::before {
-  background: linear-gradient(90deg, #2c3e50, #34495e);
+  background: linear-gradient(90deg, #06080f, #06080f);
 }
 
 .gris-bottle::before {
-  background: linear-gradient(90deg, #7f8c8d, #95a5a6);
+  background: linear-gradient(90deg, #808080, #808080);
 }
 
 .cyan-bottle::before {
-  background: linear-gradient(90deg, #3498db, #2980b9);
+  background: linear-gradient(90deg, #00B7EB, #00B7EB);
 }
 
 .amarillo-bottle::before {
-  background: linear-gradient(90deg, #f1c40f, #e67e22);
+  background: linear-gradient(90deg, #FFEB00, #FFEB00);
 }
 
 .magenta-bottle::before {
-  background: linear-gradient(90deg, #9b59b6, #8e44ad);
+  background: linear-gradient(90deg, #EB008C, #EB008C);
 }
 
 .black-bottle::before {
-  background: linear-gradient(90deg, #1a1a1a, #2c2c2c);
+  background: linear-gradient(90deg, #000000, #000000);
 }
 
 .bottle-icon {

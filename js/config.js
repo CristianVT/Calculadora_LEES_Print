@@ -3,7 +3,7 @@ class ConfiguracionLEES {
   constructor() {
     // Configuración de la API
     this.OPEN_EXCHANGE_RATES_API_KEY = "e705d88667c84a10bd2597c1610649c3"
-    this.FALLBACK_EXCHANGE_RATE = 3.7 // Tasa de cambio de respaldo
+    this.FALLBACK_EXCHANGE_RATE = 3.5 // Tasa de cambio de respaldo
 
     // Precios LEES Print en soles (tinta + papel)
     this.PRECIOS_LEES = {
@@ -126,7 +126,7 @@ class ConfiguracionLEES {
       },
     }
 
-    this.CAPACIDAD_BOTELLA = 52.5 // mm (42 mm × 1.25)
+    this.CAPACIDAD_BOTELLA = 52.5
     this.COLORES_TINTA = ["NEGRO_PB", "GRIS", "CYAN", "AMARILLO", "MAGENTA", "BLACK"]
 
     // Configuración inicial de la aplicación
@@ -169,7 +169,7 @@ class ConfiguracionLEES {
 
   // Método para calcular botellas necesarias por tinta
   calcularBotellasNecesarias(consumoMensual) {
-    return Math.ceil(consumoMensual / this.CAPACIDAD_BOTELLA)
+    return Math.floor(consumoMensual / this.CAPACIDAD_BOTELLA)
   }
 
   // Método para calcular rendimiento de una botella
