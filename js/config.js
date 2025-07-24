@@ -169,7 +169,7 @@ class ConfiguracionLEES {
 
   // Método para calcular botellas necesarias por tinta
   calcularBotellasNecesarias(consumoMensual) {
-    return Math.floor(consumoMensual / this.CAPACIDAD_BOTELLA)
+    return Math.ceil(consumoMensual / this.CAPACIDAD_BOTELLA)
   }
 
   // Método para calcular rendimiento de una botella

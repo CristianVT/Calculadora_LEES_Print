@@ -527,8 +527,8 @@ class CalculadoraLEESPrint {
         .toFixed(3)} mm`,
     )
 
-    // Calcular botellas necesarias
-    const botellas = {
+    // Calcular botellas necesarias MENSUALES (redondeando hacia arriba cada color)
+    const botellasMensuales = {
       NEGRO_PB: this.config.calcularBotellasNecesarias(totalTinta.NEGRO_PB),
       GRIS: this.config.calcularBotellasNecesarias(totalTinta.GRIS),
       CYAN: this.config.calcularBotellasNecesarias(totalTinta.CYAN),
@@ -537,17 +537,27 @@ class CalculadoraLEESPrint {
       BLACK: this.config.calcularBotellasNecesarias(totalTinta.BLACK),
     }
 
-    const totalBotellas = Object.values(botellas).reduce((sum, val) => sum + val, 0)
+    const totalBotellasMensuales = Object.values(botellasMensuales).reduce((sum, val) => sum + val, 0)
+
+    // Calcular botellas necesarias ANUALES (método correcto)
+    // 1. Calcular consumo total mensual de TODAS las tintas (sin redondear)
+    const consumoTotalMensual = Object.values(totalTinta).reduce((sum, val) => sum + val, 0)
+
+    // 2. Multiplicar por 12 para obtener consumo anual total
+    const consumoTotalAnual = consumoTotalMensual * 12
+
+    // 3. Dividir entre capacidad de botella y redondear hacia arriba
+    const totalBotellasAnuales = Math.ceil(consumoTotalAnual / 52.5)
 
     // Actualizar elementos de botellas
-    this.metodos.updateElementWithAnimation(this.botellasElements.negro, botellas.NEGRO_PB.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.gris, botellas.GRIS.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.cyan, botellas.CYAN.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.amarillo, botellas.AMARILLO.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.magenta, botellas.MAGENTA.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.black, botellas.BLACK.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.total, `${totalBotellas} botellas`)
-    this.metodos.updateElementWithAnimation(this.botellasElements.anual, `${totalBotellas * 12} botellas`)
+    this.metodos.updateElementWithAnimation(this.botellasElements.negro, botellasMensuales.NEGRO_PB.toString())
+    this.metodos.updateElementWithAnimation(this.botellasElements.gris, botellasMensuales.GRIS.toString())
+    this.metodos.updateElementWithAnimation(this.botellasElements.cyan, botellasMensuales.CYAN.toString())
+    this.metodos.updateElementWithAnimation(this.botellasElements.amarillo, botellasMensuales.AMARILLO.toString())
+    this.metodos.updateElementWithAnimation(this.botellasElements.magenta, botellasMensuales.MAGENTA.toString())
+    this.metodos.updateElementWithAnimation(this.botellasElements.black, botellasMensuales.BLACK.toString())
+    this.metodos.updateElementWithAnimation(this.botellasElements.total, `${totalBotellasMensuales} botellas`)
+    this.metodos.updateElementWithAnimation(this.botellasElements.anual, `${totalBotellasAnuales} botellas`)
 
     // Continuar con el resumen original de costos
     const ahorroMensualPEN = totalPetPEN - totalLeesPEN
