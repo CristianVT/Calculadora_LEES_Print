@@ -48,7 +48,7 @@ class MetodosLEES {
     }, 500)
   }
 
-  // Cálculos de consumo de tinta
+  // Cálculos de consumo de tinta (convertido a ml)
   calcularConsumoTinta(modalidad, formato, tipo, cantidad) {
     const consumoPorImpresion = this.config.getConsumoImpresion(modalidad, formato, tipo)
     if (!consumoPorImpresion) {
@@ -64,7 +64,9 @@ class MetodosLEES {
 
     const consumoTotal = {}
     this.config.COLORES_TINTA.forEach((color) => {
-      consumoTotal[color] = (consumoPorImpresion[color] || 0) * cantidad
+      // Convertir de mm a ml usando el factor de conversión
+      const consumoMm = (consumoPorImpresion[color] || 0) * cantidad
+      consumoTotal[color] = consumoMm * this.config.CONVERSION_MM_TO_ML
     })
 
     return consumoTotal
@@ -89,7 +91,8 @@ class MetodosLEES {
 
     const rendimiento = {}
     this.config.COLORES_TINTA.forEach((color) => {
-      rendimiento[color] = this.config.calcularRendimientoBotella(consumoPorImpresion[color] || 0)
+      const consumoMl = (consumoPorImpresion[color] || 0) * this.config.CONVERSION_MM_TO_ML
+      rendimiento[color] = this.config.calcularRendimientoBotella(consumoMl)
     })
 
     return rendimiento

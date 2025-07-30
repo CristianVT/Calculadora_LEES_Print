@@ -11,6 +11,7 @@ class CalculadoraLEESPrint {
 
     // Datos de entrada
     this.cantidades = { TC: 0, MG: 0, RM: 0, RX: 0 }
+    this.cantidadPlacas = { TC: 0, MG: 0, RM: 0, RX: 0 } // Nueva propiedad para cantidad de placas
     this.formatos = { ...this.config.FORMATOS_INICIALES }
     this.tipos = { ...this.config.TIPOS_INICIALES }
 
@@ -26,12 +27,20 @@ class CalculadoraLEESPrint {
   }
 
   initializeElements() {
-    // Inputs de cantidad
+    // Inputs de cantidad de imágenes
     this.cantidadInputs = {
       TC: document.getElementById("cantidad-tc"),
       MG: document.getElementById("cantidad-mg"),
       RM: document.getElementById("cantidad-rm"),
       RX: document.getElementById("cantidad-rx"),
+    }
+
+    // Inputs de cantidad de placas
+    this.cantidadPlacasInputs = {
+      TC: document.getElementById("placas-tc"),
+      MG: document.getElementById("placas-mg"),
+      RM: document.getElementById("placas-rm"),
+      RX: document.getElementById("placas-rx"),
     }
 
     // Selectores de formato
@@ -168,6 +177,16 @@ class CalculadoraLEESPrint {
       anual: document.getElementById("total-botellas-anual"),
     }
 
+    // Elementos de botellas anuales
+    this.botellasAnualesElements = {
+      negro: document.getElementById("botellas-negro-anual"),
+      gris: document.getElementById("botellas-gris-anual"),
+      cyan: document.getElementById("botellas-cyan-anual"),
+      amarillo: document.getElementById("botellas-amarillo-anual"),
+      magenta: document.getElementById("botellas-magenta-anual"),
+      black: document.getElementById("botellas-black-anual"),
+    }
+
     // Otros elementos
     this.currencyToggle = document.getElementById("currency-toggle")
     this.exchangeRateDisplay = document.getElementById("exchange-rate-display")
@@ -179,13 +198,24 @@ class CalculadoraLEESPrint {
   }
 
   bindEvents() {
-    // Eventos de inputs de cantidad
+    // Eventos de inputs de cantidad de imágenes
     Object.keys(this.cantidadInputs).forEach((modalidad) => {
       this.cantidadInputs[modalidad].addEventListener("input", (e) => {
         this.updateCantidad(modalidad, e.target.value)
       })
 
       this.cantidadInputs[modalidad].addEventListener("blur", (e) => {
+        this.metodos.validateInput(e.target)
+      })
+    })
+
+    // Eventos de inputs de cantidad de placas
+    Object.keys(this.cantidadPlacasInputs).forEach((modalidad) => {
+      this.cantidadPlacasInputs[modalidad].addEventListener("input", (e) => {
+        this.updateCantidadPlacas(modalidad, e.target.value)
+      })
+
+      this.cantidadPlacasInputs[modalidad].addEventListener("blur", (e) => {
         this.metodos.validateInput(e.target)
       })
     })
@@ -231,7 +261,7 @@ class CalculadoraLEESPrint {
     })
 
     // Configurar validación de inputs
-    this.metodos.configurarValidacionInputs(this.cantidadInputs)
+    this.metodos.configurarValidacionInputs({ ...this.cantidadInputs, ...this.cantidadPlacasInputs })
   }
 
   async loadExchangeRate() {
@@ -266,6 +296,20 @@ class CalculadoraLEESPrint {
   updateCantidad(modalidad, valor) {
     const numericValue = Number.parseInt(valor) || 0
     this.cantidades[modalidad] = Math.max(0, numericValue)
+
+    // Actualizar automáticamente la cantidad de placas con el multiplicador
+    const multiplicador = this.config.MULTIPLICADORES_PLACAS[modalidad]
+    const cantidadPlacasCalculada = Math.round(numericValue * multiplicador)
+    this.cantidadPlacas[modalidad] = cantidadPlacasCalculada
+    this.cantidadPlacasInputs[modalidad].value = cantidadPlacasCalculada
+
+    this.updateCalculationsForModalidad(modalidad)
+    this.updateResumen()
+  }
+
+  updateCantidadPlacas(modalidad, valor) {
+    const numericValue = Number.parseInt(valor) || 0
+    this.cantidadPlacas[modalidad] = Math.max(0, numericValue)
     this.updateCalculationsForModalidad(modalidad)
     this.updateResumen()
   }
@@ -288,7 +332,8 @@ class CalculadoraLEESPrint {
   }
 
   updateCalculationsForModalidad(modalidad) {
-    const cantidad = this.cantidades[modalidad]
+    // Usar cantidad de placas en lugar de cantidad de imágenes para los cálculos
+    const cantidad = this.cantidadPlacas[modalidad]
     const formato = this.formatos[modalidad]
     const tipo = this.tipos[modalidad]
 
@@ -462,8 +507,9 @@ class CalculadoraLEESPrint {
       BLACK: 0,
     }
 
-    Object.keys(this.cantidades).forEach((modalidad) => {
-      const cantidad = this.cantidades[modalidad]
+    Object.keys(this.cantidadPlacas).forEach((modalidad) => {
+      // Usar cantidad de placas para todos los cálculos
+      const cantidad = this.cantidadPlacas[modalidad]
       const formato = this.formatos[modalidad]
       const tipo = this.tipos[modalidad]
 
@@ -481,31 +527,31 @@ class CalculadoraLEESPrint {
       // Actualizar elementos de tinta por modalidad
       this.metodos.updateElementWithAnimation(
         this.tintaElements[modalidad].negro,
-        `${consumoModalidad.NEGRO_PB.toFixed(3)} mm`,
+        `${consumoModalidad.NEGRO_PB.toFixed(3)} ml`,
       )
       this.metodos.updateElementWithAnimation(
         this.tintaElements[modalidad].gris,
-        `${consumoModalidad.GRIS.toFixed(3)} mm`,
+        `${consumoModalidad.GRIS.toFixed(3)} ml`,
       )
       this.metodos.updateElementWithAnimation(
         this.tintaElements[modalidad].cyan,
-        `${consumoModalidad.CYAN.toFixed(3)} mm`,
+        `${consumoModalidad.CYAN.toFixed(3)} ml`,
       )
       this.metodos.updateElementWithAnimation(
         this.tintaElements[modalidad].amarillo,
-        `${consumoModalidad.AMARILLO.toFixed(3)} mm`,
+        `${consumoModalidad.AMARILLO.toFixed(3)} ml`,
       )
       this.metodos.updateElementWithAnimation(
         this.tintaElements[modalidad].magenta,
-        `${consumoModalidad.MAGENTA.toFixed(3)} mm`,
+        `${consumoModalidad.MAGENTA.toFixed(3)} ml`,
       )
       this.metodos.updateElementWithAnimation(
         this.tintaElements[modalidad].black,
-        `${consumoModalidad.BLACK.toFixed(3)} mm`,
+        `${consumoModalidad.BLACK.toFixed(3)} ml`,
       )
 
       const totalModalidad = Object.values(consumoModalidad).reduce((sum, val) => sum + val, 0)
-      this.metodos.updateElementWithAnimation(this.tintaElements[modalidad].total, `${totalModalidad.toFixed(3)} mm`)
+      this.metodos.updateElementWithAnimation(this.tintaElements[modalidad].total, `${totalModalidad.toFixed(3)} ml`)
 
       // Sumar a totales generales
       Object.keys(totalTinta).forEach((color) => {
@@ -514,17 +560,17 @@ class CalculadoraLEESPrint {
     })
 
     // Actualizar totales de tinta
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.negro, `${totalTinta.NEGRO_PB.toFixed(3)} mm`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.gris, `${totalTinta.GRIS.toFixed(3)} mm`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.cyan, `${totalTinta.CYAN.toFixed(3)} mm`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.amarillo, `${totalTinta.AMARILLO.toFixed(3)} mm`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.magenta, `${totalTinta.MAGENTA.toFixed(3)} mm`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.black, `${totalTinta.BLACK.toFixed(3)} mm`)
+    this.metodos.updateElementWithAnimation(this.tintaElements.totales.negro, `${totalTinta.NEGRO_PB.toFixed(3)} ml`)
+    this.metodos.updateElementWithAnimation(this.tintaElements.totales.gris, `${totalTinta.GRIS.toFixed(3)} ml`)
+    this.metodos.updateElementWithAnimation(this.tintaElements.totales.cyan, `${totalTinta.CYAN.toFixed(3)} ml`)
+    this.metodos.updateElementWithAnimation(this.tintaElements.totales.amarillo, `${totalTinta.AMARILLO.toFixed(3)} ml`)
+    this.metodos.updateElementWithAnimation(this.tintaElements.totales.magenta, `${totalTinta.MAGENTA.toFixed(3)} ml`)
+    this.metodos.updateElementWithAnimation(this.tintaElements.totales.black, `${totalTinta.BLACK.toFixed(3)} ml`)
     this.metodos.updateElementWithAnimation(
       this.tintaElements.totales.general,
       `${Object.values(totalTinta)
         .reduce((sum, val) => sum + val, 0)
-        .toFixed(3)} mm`,
+        .toFixed(3)} ml`,
     )
 
     // Calcular botellas necesarias MENSUALES (redondeando hacia arriba cada color)
@@ -539,15 +585,17 @@ class CalculadoraLEESPrint {
 
     const totalBotellasMensuales = Object.values(botellasMensuales).reduce((sum, val) => sum + val, 0)
 
-    // Calcular botellas necesarias ANUALES (método correcto)
-    // 1. Calcular consumo total mensual de TODAS las tintas (sin redondear)
-    const consumoTotalMensual = Object.values(totalTinta).reduce((sum, val) => sum + val, 0)
+    // Calcular botellas necesarias ANUALES por color
+    const botellasAnuales = {
+      NEGRO_PB: this.config.calcularBotellasNecesarias(totalTinta.NEGRO_PB * 12),
+      GRIS: this.config.calcularBotellasNecesarias(totalTinta.GRIS * 12),
+      CYAN: this.config.calcularBotellasNecesarias(totalTinta.CYAN * 12),
+      AMARILLO: this.config.calcularBotellasNecesarias(totalTinta.AMARILLO * 12),
+      MAGENTA: this.config.calcularBotellasNecesarias(totalTinta.MAGENTA * 12),
+      BLACK: this.config.calcularBotellasNecesarias(totalTinta.BLACK * 12),
+    }
 
-    // 2. Multiplicar por 12 para obtener consumo anual total
-    const consumoTotalAnual = consumoTotalMensual * 12
-
-    // 3. Dividir entre capacidad de botella y redondear hacia arriba
-    const totalBotellasAnuales = Math.ceil(consumoTotalAnual / 52.5)
+    const totalBotellasAnuales = Object.values(botellasAnuales).reduce((sum, val) => sum + val, 0)
 
     // Actualizar elementos de botellas
     this.metodos.updateElementWithAnimation(this.botellasElements.negro, botellasMensuales.NEGRO_PB.toString())
@@ -558,6 +606,14 @@ class CalculadoraLEESPrint {
     this.metodos.updateElementWithAnimation(this.botellasElements.black, botellasMensuales.BLACK.toString())
     this.metodos.updateElementWithAnimation(this.botellasElements.total, `${totalBotellasMensuales} botellas`)
     this.metodos.updateElementWithAnimation(this.botellasElements.anual, `${totalBotellasAnuales} botellas`)
+
+    // Actualizar elementos de botellas anuales individuales
+    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.negro, botellasAnuales.NEGRO_PB.toString())
+    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.gris, botellasAnuales.GRIS.toString())
+    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.cyan, botellasAnuales.CYAN.toString())
+    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.amarillo, botellasAnuales.AMARILLO.toString())
+    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.magenta, botellasAnuales.MAGENTA.toString())
+    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.black, botellasAnuales.BLACK.toString())
 
     // Continuar con el resumen original de costos
     const ahorroMensualPEN = totalPetPEN - totalLeesPEN
@@ -665,8 +721,15 @@ class CalculadoraLEESPrint {
 
   resetCalculator() {
     if (confirm("¿Estás seguro de que quieres limpiar todos los campos?")) {
-      // Limpiar inputs
+      // Limpiar inputs de imágenes
       Object.values(this.cantidadInputs).forEach((input) => {
+        input.value = ""
+        input.style.borderColor = ""
+        input.style.backgroundColor = ""
+      })
+
+      // Limpiar inputs de placas
+      Object.values(this.cantidadPlacasInputs).forEach((input) => {
         input.value = ""
         input.style.borderColor = ""
         input.style.backgroundColor = ""
@@ -685,6 +748,7 @@ class CalculadoraLEESPrint {
 
       // Resetear datos internos
       this.cantidades = { TC: 0, MG: 0, RM: 0, RX: 0 }
+      this.cantidadPlacas = { TC: 0, MG: 0, RM: 0, RX: 0 }
       this.formatos = { ...this.config.FORMATOS_INICIALES }
       this.tipos = { ...this.config.TIPOS_INICIALES }
 

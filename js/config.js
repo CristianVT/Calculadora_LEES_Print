@@ -104,7 +104,7 @@ class ConfiguracionLEES {
       },
       RX: {
         A3: {
-          BN: {
+          COLOR: {
             NEGRO_PB: 0.172131,
             GRIS: 0.171311,
             CYAN: 0.004098,
@@ -126,8 +126,19 @@ class ConfiguracionLEES {
       },
     }
 
-    this.CAPACIDAD_BOTELLA = 52.5
+    // Factor de conversión de mm a ml: 52.5mm = 70ml
+    this.CONVERSION_MM_TO_ML = 70 / 52.5
+
+    this.CAPACIDAD_BOTELLA = 70 // Cambiado a ml
     this.COLORES_TINTA = ["NEGRO_PB", "GRIS", "CYAN", "AMARILLO", "MAGENTA", "BLACK"]
+
+    // Multiplicadores por defecto para cantidad de placas
+    this.MULTIPLICADORES_PLACAS = {
+      TC: 1.2,
+      MG: 1.0,
+      RM: 1.2,
+      RX: 1.1,
+    }
 
     // Configuración inicial de la aplicación
     this.MODALIDADES = ["TC", "MG", "RM", "RX"]

@@ -86,16 +86,16 @@
 }
 
 .cyan-header {
-  background: #00B7EB!important;
+  background: #00b7eb !important;
 }
 
 .amarillo-header {
-  background: #FFEB00 !important;
+  background: #ffeb00 !important;
   color: #2c3e50 !important;
 }
 
 .magenta-header {
-  background: #EB008C!important;
+  background: #eb008c !important;
 }
 
 .black-header {
@@ -219,15 +219,15 @@
 }
 
 .cyan-bottle::before {
-  background: linear-gradient(90deg, #00B7EB, #00B7EB);
+  background: linear-gradient(90deg, #00b7eb, #00b7eb);
 }
 
 .amarillo-bottle::before {
-  background: linear-gradient(90deg, #FFEB00, #FFEB00);
+  background: linear-gradient(90deg, #ffeb00, #ffeb00);
 }
 
 .magenta-bottle::before {
-  background: linear-gradient(90deg, #EB008C, #EB008C);
+  background: linear-gradient(90deg, #eb008c, #eb008c);
 }
 
 .black-bottle::before {
@@ -308,7 +308,7 @@
 /* Estilos para las imágenes de botellas de tinta */
 .bottle-img {
   width: 60px;
-  height: 125px; 
+  height: 125px;
   object-fit: contain;
   object-position: center;
   border-radius: 8px;

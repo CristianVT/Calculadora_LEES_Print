@@ -67,6 +67,23 @@
                         </td>
                     </tr>
 
+                    <!-- Cantidad de Placas -->
+                    <tr class="input-row">
+                        <td class="concept-cell">Cantidad de Placas al Mes:</td>
+                        <td class="input-cell">
+                            <input type="number" id="placas-tc" class="quantity-input" min="0" step="1" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="placas-mg" class="quantity-input" min="0" step="1" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="placas-rm" class="quantity-input" min="0" step="1" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="placas-rx" class="quantity-input" min="0" step="1" placeholder="0">
+                        </td>
+                    </tr>
+
                     <!-- Formato de Impresión -->
                     <tr class="input-row">
                         <td class="concept-cell">Formato de Impresión:</td>
@@ -116,7 +133,6 @@
                         <td class="input-cell">
                             <select id="tipo-rx" class="type-select">
                                 <option value="COLOR">Color</option>
-                                <option value="BN">Blanco y Negro</option>
                             </select>
                         </td>
                     </tr>
@@ -292,12 +308,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
             <!-- Sección de Consumo de Tinta -->
             <div class="ink-calculation-section">
                 <h2>Consumo Estimado de Tinta LEES Print</h2>
-                <p class="ink-note">Cálculo en milímetros (mm) mensual basado en datos exactos de consumo por impresión.</p>
-                <p class="ink-bottles-note">Cada botella tiene capacidad útil de <strong>52.5mm</strong></p>
+                <p class="ink-note">Cálculo en mililitros (ml) mensual basado en datos exactos de consumo por impresión.</p>
+                <p class="ink-bottles-note">Cada botella tiene capacidad útil de <strong>70ml</strong></p>
                 
                 <table class="ink-table">
                     <thead>
@@ -309,69 +326,69 @@
                             <th class="tinta-col amarillo-header">Amarillo</th>
                             <th class="tinta-col magenta-header">Magenta</th>
                             <th class="tinta-col black-header">Black</th>
-                            <th class="total-col">Total mm</th>
+                            <th class="total-col">Total ml</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="modalidad-cell tc-cell">Tomografía (TC)</td>
-                            <td id="tinta-tc-negro" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-tc-gris" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-tc-cyan" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-tc-amarillo" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-tc-magenta" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-tc-black" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-tc-total" class="total-ink-value">0.000 mm</td>
+                            <td id="tinta-tc-negro" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-tc-gris" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-tc-cyan" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-tc-amarillo" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-tc-magenta" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-tc-black" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-tc-total" class="total-ink-value">0.000 ml</td>
                         </tr>
                         <tr>
                             <td class="modalidad-cell mg-cell">Mamografía (MG)</td>
-                            <td id="tinta-mg-negro" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-mg-gris" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-mg-cyan" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-mg-amarillo" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-mg-magenta" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-mg-black" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-mg-total" class="total-ink-value">0.000 mm</td>
+                            <td id="tinta-mg-negro" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-mg-gris" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-mg-cyan" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-mg-amarillo" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-mg-magenta" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-mg-black" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-mg-total" class="total-ink-value">0.000 ml</td>
                         </tr>
                         <tr>
                             <td class="modalidad-cell rm-cell">Resonancia (RM)</td>
-                            <td id="tinta-rm-negro" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rm-gris" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rm-cyan" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rm-amarillo" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rm-magenta" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rm-black" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rm-total" class="total-ink-value">0.000 mm</td>
+                            <td id="tinta-rm-negro" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rm-gris" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rm-cyan" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rm-amarillo" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rm-magenta" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rm-black" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rm-total" class="total-ink-value">0.000 ml</td>
                         </tr>
                         <tr>
                             <td class="modalidad-cell rx-cell">Rayos X (RX)</td>
-                            <td id="tinta-rx-negro" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rx-gris" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rx-cyan" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rx-amarillo" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rx-magenta" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rx-black" class="tinta-value">0.000 mm</td>
-                            <td id="tinta-rx-total" class="total-ink-value">0.000 mm</td>
+                            <td id="tinta-rx-negro" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rx-gris" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rx-cyan" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rx-amarillo" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rx-magenta" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rx-black" class="tinta-value">0.000 ml</td>
+                            <td id="tinta-rx-total" class="total-ink-value">0.000 ml</td>
                         </tr>
                         <tr class="total-row">
                             <td class="modalidad-cell total-label"><strong>TOTAL MENSUAL</strong></td>
-                            <td id="tinta-total-negro" class="tinta-value total-tinta"><strong>0.000 mm</strong></td>
-                            <td id="tinta-total-gris" class="tinta-value total-tinta"><strong>0.000 mm</strong></td>
-                            <td id="tinta-total-cyan" class="tinta-value total-tinta"><strong>0.000 mm</strong></td>
-                            <td id="tinta-total-amarillo" class="tinta-value total-tinta"><strong>0.000 mm</strong></td>
-                            <td id="tinta-total-magenta" class="tinta-value total-tinta"><strong>0.000 mm</strong></td>
-                            <td id="tinta-total-black" class="tinta-value total-tinta"><strong>0.000 mm</strong></td>
-                            <td id="tinta-total-general" class="total-ink-value total-general"><strong>0.000 mm</strong></td>
+                            <td id="tinta-total-negro" class="tinta-value total-tinta"><strong>0.000 ml</strong></td>
+                            <td id="tinta-total-gris" class="tinta-value total-tinta"><strong>0.000 ml</strong></td>
+                            <td id="tinta-total-cyan" class="tinta-value total-tinta"><strong>0.000 ml</strong></td>
+                            <td id="tinta-total-amarillo" class="tinta-value total-tinta"><strong>0.000 ml</strong></td>
+                            <td id="tinta-total-magenta" class="tinta-value total-tinta"><strong>0.000 ml</strong></td>
+                            <td id="tinta-total-black" class="tinta-value total-tinta"><strong>0.000 ml</strong></td>
+                            <td id="tinta-total-general" class="total-ink-value total-general"><strong>0.000 ml</strong></td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div class="bottles-section">
-                    <h3>Botellas de Tinta Requeridas</h3>
+                    <h3>Botellas de Tinta Requeridas al Mes</h3>
                     <div class="bottles-grid">
                         <div class="bottle-card negro-bottle">
                             <div class="bottle-icon">
-                                <img src="img/Epson_NegroPB.jpg" alt="Negro PB" class="bottle-img">
+                                <img src="/img/Epson_NegroPB.jpg" alt="Negro PB" class="bottle-img">
                             </div>
                             <h4>Negro PB</h4>
                             <div class="bottle-info">
@@ -381,7 +398,7 @@
                         </div>
                         <div class="bottle-card gris-bottle">
                             <div class="bottle-icon">
-                                <img src="img/Epson_Gris.jpg" alt="Gris" class="bottle-img">
+                                <img src="/img/Epson_Gris.jpg" alt="Gris" class="bottle-img">
                             </div>
                             <h4>Gris</h4>
                             <div class="bottle-info">
@@ -391,7 +408,7 @@
                         </div>
                         <div class="bottle-card cyan-bottle">
                             <div class="bottle-icon">
-                                <img src="img/Epson_Cyan.jpg" alt="Cyan" class="bottle-img">
+                                <img src="/img/Epson_Cyan.jpg" alt="Cyan" class="bottle-img">
                             </div>
                             <h4>Cyan</h4>
                             <div class="bottle-info">
@@ -401,7 +418,7 @@
                         </div>
                         <div class="bottle-card amarillo-bottle">
                             <div class="bottle-icon">
-                                <img src="img/Epson_Amarillo.jpg" alt="Amarillo" class="bottle-img">
+                                <img src="/img/Epson_Amarillo.jpg" alt="Amarillo" class="bottle-img">
                             </div>
                             <h4>Amarillo</h4>
                             <div class="bottle-info">
@@ -411,7 +428,7 @@
                         </div>
                         <div class="bottle-card magenta-bottle">
                             <div class="bottle-icon">
-                                <img src="img/Epson_Magenta.jpg" alt="Magenta" class="bottle-img">
+                                <img src="/img/Epson_Magenta.jpg" alt="Magenta" class="bottle-img">
                             </div>
                             <h4>Magenta</h4>
                             <div class="bottle-info">
@@ -421,7 +438,7 @@
                         </div>
                         <div class="bottle-card black-bottle">
                             <div class="bottle-icon">
-                                <img src="img/Epson_Black.jpg" alt="Black" class="bottle-img">
+                                <img src="/img/Epson_Black.jpg" alt="Black" class="bottle-img">
                             </div>
                             <h4>Black</h4>
                             <div class="bottle-info">
@@ -431,6 +448,71 @@
                         </div>
                     </div>
                     
+                    <h3>Botellas de Tinta Requeridas al Año</h3>
+                    <div class="bottles-grid">
+                        <div class="bottle-card negro-bottle">
+                            <div class="bottle-icon">
+                                <img src="img/Epson_NegroPB.jpg" alt="Negro PB" class="bottle-img">
+                            </div>
+                            <h4>Negro PB</h4>
+                            <div class="bottle-info">
+                                <span id="botellas-negro-anual" class="bottle-count">0</span>
+                                <span class="bottle-label">botellas</span>
+                            </div>
+                        </div>
+                        <div class="bottle-card gris-bottle">
+                            <div class="bottle-icon">
+                                <img src="img/Epson_Gris.jpg" alt="Gris" class="bottle-img">
+                            </div>
+                            <h4>Gris</h4>
+                            <div class="bottle-info">
+                                <span id="botellas-gris-anual" class="bottle-count">0</span>
+                                <span class="bottle-label">botellas</span>
+                            </div>
+                        </div>
+                        <div class="bottle-card cyan-bottle">
+                            <div class="bottle-icon">
+                                <img src="img/Epson_Cyan.jpg" alt="Cyan" class="bottle-img">
+                            </div>
+                            <h4>Cyan</h4>
+                            <div class="bottle-info">
+                                <span id="botellas-cyan-anual" class="bottle-count">0</span>
+                                <span class="bottle-label">botellas</span>
+                            </div>
+                        </div>
+                        <div class="bottle-card amarillo-bottle">
+                            <div class="bottle-icon">
+                                <img src="img/Epson_Amarillo.jpg" alt="Amarillo" class="bottle-img">
+                            </div>
+                            <h4>Amarillo</h4>
+                            <div class="bottle-info">
+                                <span id="botellas-amarillo-anual" class="bottle-count">0</span>
+                                <span class="bottle-label">botellas</span>
+                            </div>
+                        </div>
+                        <div class="bottle-card magenta-bottle">
+                            <div class="bottle-icon">
+                                <img src="img/Epson_Magenta.jpg" alt="Magenta" class="bottle-img">
+                            </div>
+                            <h4>Magenta</h4>
+                            <div class="bottle-info">
+                                <span id="botellas-magenta-anual" class="bottle-count">0</span>
+                                <span class="bottle-label">botellas</span>
+                            </div>
+                        </div>
+                        <div class="bottle-card black-bottle">
+                            <div class="bottle-icon">
+                                <img src="img/Epson_Black.jpg" alt="Black" class="bottle-img">
+                            </div>
+                            <h4>Black</h4>
+                            <div class="bottle-info">
+                                <span id="botellas-black-anual" class="bottle-count">0</span>
+                                <span class="bottle-label">botellas</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Resumen de Botellas -->
                     <div class="bottles-summary">
                         <div class="summary-item-ink">
                             <span class="label">Total de Botellas Mensuales:</span>
