@@ -132,10 +132,10 @@ class ConfiguracionLEES {
 
     // Multiplicadores por defecto para cantidad de placas
     this.MULTIPLICADORES_PLACAS = {
-      TC: 1.2,
-      MG: 1.0,
-      RM: 1.2,
-      RX: 1.1,
+      TC: 2,
+      MG: 1,
+      RM: 3,
+      RX: 1.2,
     }
 
     // Configuración inicial de la aplicación
