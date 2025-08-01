@@ -11,7 +11,6 @@ class ConfiguracionLEES {
         A3: {
           BN: 1.98,
           COLOR: 2.8,
-          MIXTO: 2.01,
         },
       },
       MG: {
@@ -23,7 +22,6 @@ class ConfiguracionLEES {
         A3: {
           BN: 2.58,
           COLOR: 1.98,
-          MIXTO: 2.45,
         },
       },
       RX: {
