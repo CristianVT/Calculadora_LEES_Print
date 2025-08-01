@@ -37,12 +37,12 @@ class ConfiguracionLEES {
 
     // Precios PET tradicionales en soles (promedio de rangos dados)
     this.PRECIOS_PET = {
-      TC: { A3: 7.3 }, // Promedio de 7.10-7.50
-      MG: { A3: 7.3 }, // Promedio de 7.10-7.50
-      RM: { A3: 7.3 }, // Promedio de 7.10-7.50
+      TC: { A3: 2.00 }, // USD - Promedio de 7.10-7.50
+      MG: { A3: 2.00 }, // USD - Promedio de 7.10-7.50
+      RM: { A3: 2.00 }, // USD - Promedio de 7.10-7.50
       RX: {
-        A4: 3.625, // Promedio de 3.55-3.70
-        A3: 7.25, // Promedio de 7.10-7.40
+        A4: 1.00, // USD - Promedio de 3.55-3.70
+        A3: 2.00, // USD - Promedio de 7.10-7.40
       },
     }
 

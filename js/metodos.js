@@ -21,6 +21,15 @@ class MetodosLEES {
     }).format(amount)}`
   }
 
+  // Redondeo matemático a 2 decimales
+  redondear(amount) {
+    return Math.round((amount + Number.EPSILON) * 100) / 100
+  }
+  
+  parseCurrency(text) {
+  // Quita símbolos y convierte a número
+  return Number(text.replace(/[^\d.-]+/g, "")) || 0
+}
   // Validación de inputs
   validateInput(input) {
     const value = Number.parseInt(input.value)

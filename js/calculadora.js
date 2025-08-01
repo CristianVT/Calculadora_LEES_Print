@@ -338,26 +338,26 @@ class CalculadoraLEESPrint {
     const tipo = this.tipos[modalidad]
 
     // Obtener precios
-    const precioLeesPEN = this.config.getPrecioLees(modalidad, formato, tipo)
-    const precioPetPEN = this.config.getPrecioPet(modalidad, formato)
+    const precioLeesPEN = this.metodos.redondear(this.config.getPrecioLees(modalidad, formato, tipo))
+    const precioPetUSD = this.metodos.redondear(this.config.getPrecioPet(modalidad, formato)) // Precio en USD
 
-    const precioLeesUSD = precioLeesPEN / this.exchangeRate
-    const precioPetUSD = precioPetPEN / this.exchangeRate
+    const precioLeesUSD = this.metodos.redondear(precioLeesPEN / this.exchangeRate)
+    const precioPetPEN = this.metodos.redondear(precioPetUSD * this.exchangeRate) // Convertir a PEN
 
     // Calcular totales
-    const totalLeesPEN = cantidad * precioLeesPEN
-    const totalPetPEN = cantidad * precioPetPEN
-    const totalLeesUSD = cantidad * precioLeesUSD
-    const totalPetUSD = cantidad * precioPetUSD
+    const totalLeesPEN = this.metodos.redondear(cantidad * precioLeesPEN)
+    const totalPetPEN = this.metodos.redondear(cantidad * precioPetPEN)
+    const totalLeesUSD = this.metodos.redondear(cantidad * precioLeesUSD)
+    const totalPetUSD = this.metodos.redondear(cantidad * precioPetUSD)
 
     // Calcular ahorros
-    const ahorroUnitPEN = precioPetPEN - precioLeesPEN
-    const ahorroUnitUSD = precioPetUSD - precioLeesUSD
-    const ahorroTotalPEN = totalPetPEN - totalLeesPEN
-    const ahorroTotalUSD = totalPetUSD - totalLeesUSD
+    const ahorroUnitPEN = this.metodos.redondear(precioPetPEN - precioLeesPEN)
+    const ahorroUnitUSD = this.metodos.redondear(precioPetUSD - precioLeesUSD)
+    const ahorroTotalPEN = this.metodos.redondear(totalPetPEN - totalLeesPEN)
+    const ahorroTotalUSD = this.metodos.redondear(totalPetUSD - totalLeesUSD)
 
     // Calcular porcentaje de ahorro
-    const porcentajeAhorro = precioPetPEN > 0 ? (ahorroUnitPEN / precioPetPEN) * 100 : 0
+    const porcentajeAhorro = precioPetPEN > 0 ? this.metodos.redondear((ahorroUnitPEN / precioPetPEN) * 100) : 0
 
     // Actualizar elementos según la moneda seleccionada
     this.updateCurrencyElements(modalidad, {
@@ -480,7 +480,7 @@ class CalculadoraLEESPrint {
     // Porcentaje siempre se muestra igual
     this.metodos.updateElementWithAnimation(
       this.outputElements.porcentaje[modalidad],
-      `${porcentajeAhorro.toFixed(1)}%`,
+      `${porcentajeAhorro.toFixed(2)}%`,
     )
   }
 
@@ -491,151 +491,169 @@ class CalculadoraLEESPrint {
     this.updateResumen()
   }
 
-  updateResumen() {
-    let totalLeesPEN = 0
-    let totalPetPEN = 0
-    let totalLeesUSD = 0
-    let totalPetUSD = 0
-
-    // Totales de tinta por color
-    const totalTinta = {
-      NEGRO_PB: 0,
-      GRIS: 0,
-      CYAN: 0,
-      AMARILLO: 0,
-      MAGENTA: 0,
-      BLACK: 0,
-    }
-
-    Object.keys(this.cantidadPlacas).forEach((modalidad) => {
-      // Usar cantidad de placas para todos los cálculos
-      const cantidad = this.cantidadPlacas[modalidad]
-      const formato = this.formatos[modalidad]
-      const tipo = this.tipos[modalidad]
-
-      const precioLeesPEN = this.config.getPrecioLees(modalidad, formato, tipo)
-      const precioPetPEN = this.config.getPrecioPet(modalidad, formato)
-
-      totalLeesPEN += cantidad * precioLeesPEN
-      totalPetPEN += cantidad * precioPetPEN
-      totalLeesUSD += cantidad * (precioLeesPEN / this.exchangeRate)
-      totalPetUSD += cantidad * (precioPetPEN / this.exchangeRate)
-
-      // Calcular consumo de tinta por modalidad
-      const consumoModalidad = this.metodos.calcularConsumoTinta(modalidad, formato, tipo, cantidad)
-
-      // Actualizar elementos de tinta por modalidad
-      this.metodos.updateElementWithAnimation(
-        this.tintaElements[modalidad].negro,
-        `${consumoModalidad.NEGRO_PB.toFixed(3)} ml`,
-      )
-      this.metodos.updateElementWithAnimation(
-        this.tintaElements[modalidad].gris,
-        `${consumoModalidad.GRIS.toFixed(3)} ml`,
-      )
-      this.metodos.updateElementWithAnimation(
-        this.tintaElements[modalidad].cyan,
-        `${consumoModalidad.CYAN.toFixed(3)} ml`,
-      )
-      this.metodos.updateElementWithAnimation(
-        this.tintaElements[modalidad].amarillo,
-        `${consumoModalidad.AMARILLO.toFixed(3)} ml`,
-      )
-      this.metodos.updateElementWithAnimation(
-        this.tintaElements[modalidad].magenta,
-        `${consumoModalidad.MAGENTA.toFixed(3)} ml`,
-      )
-      this.metodos.updateElementWithAnimation(
-        this.tintaElements[modalidad].black,
-        `${consumoModalidad.BLACK.toFixed(3)} ml`,
-      )
-
-      const totalModalidad = Object.values(consumoModalidad).reduce((sum, val) => sum + val, 0)
-      this.metodos.updateElementWithAnimation(this.tintaElements[modalidad].total, `${totalModalidad.toFixed(3)} ml`)
-
-      // Sumar a totales generales
-      Object.keys(totalTinta).forEach((color) => {
-        totalTinta[color] += consumoModalidad[color]
-      })
-    })
-
-    // Actualizar totales de tinta
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.negro, `${totalTinta.NEGRO_PB.toFixed(3)} ml`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.gris, `${totalTinta.GRIS.toFixed(3)} ml`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.cyan, `${totalTinta.CYAN.toFixed(3)} ml`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.amarillo, `${totalTinta.AMARILLO.toFixed(3)} ml`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.magenta, `${totalTinta.MAGENTA.toFixed(3)} ml`)
-    this.metodos.updateElementWithAnimation(this.tintaElements.totales.black, `${totalTinta.BLACK.toFixed(3)} ml`)
-    this.metodos.updateElementWithAnimation(
-      this.tintaElements.totales.general,
-      `${Object.values(totalTinta)
-        .reduce((sum, val) => sum + val, 0)
-        .toFixed(3)} ml`,
-    )
-
-    // Calcular botellas necesarias MENSUALES (redondeando hacia arriba cada color)
-    const botellasMensuales = {
-      NEGRO_PB: this.config.calcularBotellasNecesarias(totalTinta.NEGRO_PB),
-      GRIS: this.config.calcularBotellasNecesarias(totalTinta.GRIS),
-      CYAN: this.config.calcularBotellasNecesarias(totalTinta.CYAN),
-      AMARILLO: this.config.calcularBotellasNecesarias(totalTinta.AMARILLO),
-      MAGENTA: this.config.calcularBotellasNecesarias(totalTinta.MAGENTA),
-      BLACK: this.config.calcularBotellasNecesarias(totalTinta.BLACK),
-    }
-
-    const totalBotellasMensuales = Object.values(botellasMensuales).reduce((sum, val) => sum + val, 0)
-
-    // Calcular botellas necesarias ANUALES por color
-    const botellasAnuales = {
-      NEGRO_PB: this.config.calcularBotellasNecesarias(totalTinta.NEGRO_PB * 12),
-      GRIS: this.config.calcularBotellasNecesarias(totalTinta.GRIS * 12),
-      CYAN: this.config.calcularBotellasNecesarias(totalTinta.CYAN * 12),
-      AMARILLO: this.config.calcularBotellasNecesarias(totalTinta.AMARILLO * 12),
-      MAGENTA: this.config.calcularBotellasNecesarias(totalTinta.MAGENTA * 12),
-      BLACK: this.config.calcularBotellasNecesarias(totalTinta.BLACK * 12),
-    }
-
-    const totalBotellasAnuales = Object.values(botellasAnuales).reduce((sum, val) => sum + val, 0)
-
-    // Actualizar elementos de botellas
-    this.metodos.updateElementWithAnimation(this.botellasElements.negro, botellasMensuales.NEGRO_PB.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.gris, botellasMensuales.GRIS.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.cyan, botellasMensuales.CYAN.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.amarillo, botellasMensuales.AMARILLO.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.magenta, botellasMensuales.MAGENTA.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.black, botellasMensuales.BLACK.toString())
-    this.metodos.updateElementWithAnimation(this.botellasElements.total, `${totalBotellasMensuales} botellas`)
-    this.metodos.updateElementWithAnimation(this.botellasElements.anual, `${totalBotellasAnuales} botellas`)
-
-    // Actualizar elementos de botellas anuales individuales
-    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.negro, botellasAnuales.NEGRO_PB.toString())
-    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.gris, botellasAnuales.GRIS.toString())
-    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.cyan, botellasAnuales.CYAN.toString())
-    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.amarillo, botellasAnuales.AMARILLO.toString())
-    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.magenta, botellasAnuales.MAGENTA.toString())
-    this.metodos.updateElementWithAnimation(this.botellasAnualesElements.black, botellasAnuales.BLACK.toString())
-
-    // Continuar con el resumen original de costos
-    const ahorroMensualPEN = totalPetPEN - totalLeesPEN
-    const ahorroMensualUSD = totalPetUSD - totalLeesUSD
-    const ahorroAnualPEN = ahorroMensualPEN * 12
-    const ahorroAnualUSD = ahorroMensualUSD * 12
-
-    const porcentajeTotalAhorro = totalPetPEN > 0 ? (ahorroMensualPEN / totalPetPEN) * 100 : 0
-
-    // Actualizar elementos de resumen según la moneda
-    this.updateResumenElements(
-      totalLeesPEN,
-      totalLeesUSD,
-      totalPetPEN,
-      totalPetUSD,
-      ahorroMensualPEN,
-      ahorroMensualUSD,
-      ahorroAnualPEN,
-      ahorroAnualUSD,
-      porcentajeTotalAhorro,
-    )
+updateResumen() {
+  // --- Cálculos de tinta y botellas (NO TOCAR) ---
+  const totalTinta = {
+    NEGRO_PB: 0,
+    GRIS: 0,
+    CYAN: 0,
+    AMARILLO: 0,
+    MAGENTA: 0,
+    BLACK: 0,
   }
+
+  Object.keys(this.cantidadPlacas).forEach((modalidad) => {
+    const cantidad = this.cantidadPlacas[modalidad]
+    const formato = this.formatos[modalidad]
+    const tipo = this.tipos[modalidad]
+
+    const consumoModalidad = this.metodos.calcularConsumoTinta(modalidad, formato, tipo, cantidad)
+
+    // Actualizar elementos de tinta por modalidad
+    this.metodos.updateElementWithAnimation(
+      this.tintaElements[modalidad].negro,
+      `${consumoModalidad.NEGRO_PB.toFixed(3)} ml`,
+    )
+    this.metodos.updateElementWithAnimation(
+      this.tintaElements[modalidad].gris,
+      `${consumoModalidad.GRIS.toFixed(3)} ml`,
+    )
+    this.metodos.updateElementWithAnimation(
+      this.tintaElements[modalidad].cyan,
+      `${consumoModalidad.CYAN.toFixed(3)} ml`,
+    )
+    this.metodos.updateElementWithAnimation(
+      this.tintaElements[modalidad].amarillo,
+      `${consumoModalidad.AMARILLO.toFixed(3)} ml`,
+    )
+    this.metodos.updateElementWithAnimation(
+      this.tintaElements[modalidad].magenta,
+      `${consumoModalidad.MAGENTA.toFixed(3)} ml`,
+    )
+    this.metodos.updateElementWithAnimation(
+      this.tintaElements[modalidad].black,
+      `${consumoModalidad.BLACK.toFixed(3)} ml`,
+    )
+
+    const totalModalidad = Object.values(consumoModalidad).reduce((sum, val) => sum + val, 0)
+    this.metodos.updateElementWithAnimation(this.tintaElements[modalidad].total, `${totalModalidad.toFixed(3)} ml`)
+
+    // Sumar a totales generales
+    Object.keys(totalTinta).forEach((color) => {
+      totalTinta[color] += consumoModalidad[color]
+    })
+  })
+
+  // Actualizar totales de tinta
+  this.metodos.updateElementWithAnimation(this.tintaElements.totales.negro, `${totalTinta.NEGRO_PB.toFixed(3)} ml`)
+  this.metodos.updateElementWithAnimation(this.tintaElements.totales.gris, `${totalTinta.GRIS.toFixed(3)} ml`)
+  this.metodos.updateElementWithAnimation(this.tintaElements.totales.cyan, `${totalTinta.CYAN.toFixed(3)} ml`)
+  this.metodos.updateElementWithAnimation(this.tintaElements.totales.amarillo, `${totalTinta.AMARILLO.toFixed(3)} ml`)
+  this.metodos.updateElementWithAnimation(this.tintaElements.totales.magenta, `${totalTinta.MAGENTA.toFixed(3)} ml`)
+  this.metodos.updateElementWithAnimation(this.tintaElements.totales.black, `${totalTinta.BLACK.toFixed(3)} ml`)
+  this.metodos.updateElementWithAnimation(
+    this.tintaElements.totales.general,
+    `${Object.values(totalTinta).reduce((sum, val) => sum + val, 0).toFixed(3)} ml`,
+  )
+
+  // Calcular botellas necesarias MENSUALES (redondeando hacia arriba cada color)
+  const botellasMensuales = {
+    NEGRO_PB: this.config.calcularBotellasNecesarias(totalTinta.NEGRO_PB),
+    GRIS: this.config.calcularBotellasNecesarias(totalTinta.GRIS),
+    CYAN: this.config.calcularBotellasNecesarias(totalTinta.CYAN),
+    AMARILLO: this.config.calcularBotellasNecesarias(totalTinta.AMARILLO),
+    MAGENTA: this.config.calcularBotellasNecesarias(totalTinta.MAGENTA),
+    BLACK: this.config.calcularBotellasNecesarias(totalTinta.BLACK),
+  }
+
+  const totalBotellasMensuales = Object.values(botellasMensuales).reduce((sum, val) => sum + val, 0)
+
+  // Calcular botellas necesarias ANUALES por color
+  const botellasAnuales = {
+    NEGRO_PB: this.config.calcularBotellasNecesarias(totalTinta.NEGRO_PB * 12),
+    GRIS: this.config.calcularBotellasNecesarias(totalTinta.GRIS * 12),
+    CYAN: this.config.calcularBotellasNecesarias(totalTinta.CYAN * 12),
+    AMARILLO: this.config.calcularBotellasNecesarias(totalTinta.AMARILLO * 12),
+    MAGENTA: this.config.calcularBotellasNecesarias(totalTinta.MAGENTA * 12),
+    BLACK: this.config.calcularBotellasNecesarias(totalTinta.BLACK * 12),
+  }
+
+  const totalBotellasAnuales = Object.values(botellasAnuales).reduce((sum, val) => sum + val, 0)
+
+  // Actualizar elementos de botellas
+  this.metodos.updateElementWithAnimation(this.botellasElements.negro, botellasMensuales.NEGRO_PB.toString())
+  this.metodos.updateElementWithAnimation(this.botellasElements.gris, botellasMensuales.GRIS.toString())
+  this.metodos.updateElementWithAnimation(this.botellasElements.cyan, botellasMensuales.CYAN.toString())
+  this.metodos.updateElementWithAnimation(this.botellasElements.amarillo, botellasMensuales.AMARILLO.toString())
+  this.metodos.updateElementWithAnimation(this.botellasElements.magenta, botellasMensuales.MAGENTA.toString())
+  this.metodos.updateElementWithAnimation(this.botellasElements.black, botellasMensuales.BLACK.toString())
+  this.metodos.updateElementWithAnimation(this.botellasElements.total, `${totalBotellasMensuales} botellas`)
+  this.metodos.updateElementWithAnimation(this.botellasElements.anual, `${totalBotellasAnuales} botellas`)
+
+  // Actualizar elementos de botellas anuales individuales
+  this.metodos.updateElementWithAnimation(this.botellasAnualesElements.negro, botellasAnuales.NEGRO_PB.toString())
+  this.metodos.updateElementWithAnimation(this.botellasAnualesElements.gris, botellasAnuales.GRIS.toString())
+  this.metodos.updateElementWithAnimation(this.botellasAnualesElements.cyan, botellasAnuales.CYAN.toString())
+  this.metodos.updateElementWithAnimation(this.botellasAnualesElements.amarillo, botellasAnuales.AMARILLO.toString())
+  this.metodos.updateElementWithAnimation(this.botellasAnualesElements.magenta, botellasAnuales.MAGENTA.toString())
+  this.metodos.updateElementWithAnimation(this.botellasAnualesElements.black, botellasAnuales.BLACK.toString())
+
+  // --- NUEVO: Calcular los totales monetarios directamente ---
+  let leesTotalPEN = 0, leesTotalUSD = 0, petTotalPEN = 0, petTotalUSD = 0;
+  ["TC", "MG", "RM", "RX"].forEach((modalidad) => {
+    const cantidad = this.cantidadPlacas[modalidad];
+    const formato = this.formatos[modalidad];
+    const tipo = this.tipos[modalidad];
+    // Precios
+    const precioLeesPEN = this.metodos.redondear(this.config.getPrecioLees(modalidad, formato, tipo));
+    const precioPetUSD = this.metodos.redondear(this.config.getPrecioPet(modalidad, formato));
+    const precioLeesUSD = this.metodos.redondear(precioLeesPEN / this.exchangeRate);
+    const precioPetPEN = this.metodos.redondear(precioPetUSD * this.exchangeRate);
+    // Totales
+    const totalLeesPEN = this.metodos.redondear(cantidad * precioLeesPEN);
+    const totalLeesUSD = this.metodos.redondear(cantidad * precioLeesUSD);
+    const totalPetPEN = this.metodos.redondear(cantidad * precioPetPEN);
+    const totalPetUSD = this.metodos.redondear(cantidad * precioPetUSD);
+    if (this.currentCurrency === "BOTH") {
+      leesTotalPEN += totalLeesPEN;
+      leesTotalUSD += totalLeesUSD;
+      petTotalPEN += totalPetPEN;
+      petTotalUSD += totalPetUSD;
+    } else if (this.currentCurrency === "USD") {
+      leesTotalUSD += totalLeesUSD;
+      petTotalUSD += totalPetUSD;
+    } else {
+      leesTotalPEN += totalLeesPEN;
+      petTotalPEN += totalPetPEN;
+    }
+  });
+
+  // Si la moneda es PEN, calcula USD a partir de PEN
+  if (this.currentCurrency === "PEN") {
+    leesTotalUSD = this.metodos.redondear(leesTotalPEN / this.exchangeRate);
+    petTotalUSD = this.metodos.redondear(petTotalPEN / this.exchangeRate);
+  }
+
+  // Calcular ahorros y porcentajes
+  const ahorroMensualPEN = this.metodos.redondear(petTotalPEN - leesTotalPEN);
+  const ahorroMensualUSD = this.metodos.redondear(petTotalUSD - leesTotalUSD);
+  const ahorroAnualPEN = this.metodos.redondear(ahorroMensualPEN * 12);
+  const ahorroAnualUSD = this.metodos.redondear(ahorroMensualUSD * 12);
+  const porcentajeTotalAhorro = petTotalPEN > 0 ? this.metodos.redondear((ahorroMensualPEN / petTotalPEN) * 100) : 0;
+
+  // Actualizar elementos de resumen según la moneda
+  this.updateResumenElements(
+    leesTotalPEN,
+    leesTotalUSD,
+    petTotalPEN,
+    petTotalUSD,
+    ahorroMensualPEN,
+    ahorroMensualUSD,
+    ahorroAnualPEN,
+    ahorroAnualUSD,
+    porcentajeTotalAhorro,
+  );
+}
 
   updateResumenElements(
     totalLeesPEN,
@@ -715,7 +733,7 @@ class CalculadoraLEESPrint {
 
     this.metodos.updateElementWithAnimation(
       this.resumenElements.porcentajeTotal,
-      `${porcentajeTotalAhorro.toFixed(1)}%`,
+      `${porcentajeTotalAhorro.toFixed(2)}%`,
     )
   }
 
