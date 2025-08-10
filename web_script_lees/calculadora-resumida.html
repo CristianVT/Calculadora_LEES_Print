@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora LEES Print - Presupuesto Rápido</title>
+    <link rel="stylesheet" href="web_script_lees/estilos-calculadora-resumida.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <!-- Header -->
+        <div class="calculator-header">
+            <h1>Calculadora de Presupuesto LEES Print</h1>
+            <p>Comparación rápida de costos: PET vs LEES Print</p>
+            
+            <div class="currency-controls">
+                <label for="currency-select">Moneda:</label>
+                <select id="currency-select">
+                    <option value="PEN">Soles (S/)</option>
+                    <option value="USD">Dólares ($)</option>
+                    <option value="BOTH">Ambas</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tabla Principal -->
+        <div class="main-table-container">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th class="concept-col">Concepto</th>
+                        <th class="modality-col rx-col">Rayos X</th>
+                        <th class="modality-col mg-col">Mamografía</th>
+                        <th class="modality-col tc-col">Tomografía</th>
+                        <th class="modality-col rm-col">Resonancia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Inputs de cantidad de exámenes (PRIMERO) -->
+                    <tr class="input-row">
+                        <td class="concept-cell">Exámenes de imagen por mes:</td>
+                        <td class="input-cell">
+                            <input type="number" id="examenes-rx" min="0" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="examenes-mg" min="0" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="examenes-tc" min="0" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="examenes-rm" min="0" placeholder="0">
+                        </td>
+                    </tr>
+
+                    <!-- Inputs de cantidad de placas (SEGUNDO) -->
+                    <tr class="input-row">
+                        <td class="concept-cell">Placas por mes:</td>
+                        <td class="input-cell">
+                            <input type="number" id="placas-rx" min="0" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="placas-mg" min="0" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="placas-tc" min="0" placeholder="0">
+                        </td>
+                        <td class="input-cell">
+                            <input type="number" id="placas-rm" min="0" placeholder="0">
+                        </td>
+                    </tr>
+
+                    <!-- Costo PET -->
+                    <tr class="output-row pet-row">
+                        <td class="concept-cell">Costo PET (por placa):</td>
+                        <td class="output-cell" id="costo-pet-rx">S/ 0.00</td>
+                        <td class="output-cell" id="costo-pet-mg">S/ 0.00</td>
+                        <td class="output-cell" id="costo-pet-tc">S/ 0.00</td>
+                        <td class="output-cell" id="costo-pet-rm">S/ 0.00</td>
+                    </tr>
+
+                    <!-- Total mensual PET -->
+                    <tr class="output-row total-pet-row">
+                        <td class="concept-cell">Total mensual PET:</td>
+                        <td class="output-cell total-cell" id="total-pet-rx">S/ 0.00</td>
+                        <td class="output-cell total-cell" id="total-pet-mg">S/ 0.00</td>
+                        <td class="output-cell total-cell" id="total-pet-tc">S/ 0.00</td>
+                        <td class="output-cell total-cell" id="total-pet-rm">S/ 0.00</td>
+                    </tr>
+
+                    <!-- Costo LEES -->
+                    <tr class="output-row lees-row">
+                        <td class="concept-cell">Costo LEES (por placa):</td>
+                        <td class="output-cell" id="costo-lees-rx">S/ 0.00</td>
+                        <td class="output-cell" id="costo-lees-mg">S/ 0.00</td>
+                        <td class="output-cell" id="costo-lees-tc">S/ 0.00</td>
+                        <td class="output-cell" id="costo-lees-rm">S/ 0.00</td>
+                    </tr>
+
+                    <!-- Total mensual LEES -->
+                    <tr class="output-row total-lees-row">
+                        <td class="concept-cell">Total mensual LEES:</td>
+                        <td class="output-cell total-cell" id="total-lees-rx">S/ 0.00</td>
+                        <td class="output-cell total-cell" id="total-lees-mg">S/ 0.00</td>
+                        <td class="output-cell total-cell" id="total-lees-tc">S/ 0.00</td>
+                        <td class="output-cell total-cell" id="total-lees-rm">S/ 0.00</td>
+                    </tr>
+
+                    <!-- Ahorro mensual -->
+                    <tr class="output-row savings-row">
+                        <td class="concept-cell">Ahorro mensual:</td>
+                        <td class="output-cell savings-cell" id="ahorro-rx">S/ 0.00</td>
+                        <td class="output-cell savings-cell" id="ahorro-mg">S/ 0.00</td>
+                        <td class="output-cell savings-cell" id="ahorro-tc">S/ 0.00</td>
+                        <td class="output-cell savings-cell" id="ahorro-rm">S/ 0.00</td>
+                    </tr>
+
+                    <!-- Porcentaje de ahorro -->
+                    <tr class="output-row percentage-row">
+                        <td class="concept-cell">% de Ahorro:</td>
+                        <td class="output-cell percentage-cell" id="porcentaje-rx">0%</td>
+                        <td class="output-cell percentage-cell" id="porcentaje-mg">0%</td>
+                        <td class="output-cell percentage-cell" id="porcentaje-tc">0%</td>
+                        <td class="output-cell percentage-cell" id="porcentaje-rm">0%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Tarjetas de Resumen -->
+        <div class="summary-cards">
+            <div class="summary-card pet-card">
+                <div class="card-content">
+                    <h3>Costo Total PET</h3>
+                    <div class="card-values">
+                        <div class="value-item">
+                            <span class="label">Mensual:</span>
+                            <span class="value" id="resumen-pet-mensual">S/ 0.00</span>
+                        </div>
+                        <div class="value-item">
+                            <span class="label">Anual:</span>
+                            <span class="value" id="resumen-pet-anual">S/ 0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card lees-card">
+                <div class="card-content">
+                    <h3>Costo Total LEES</h3>
+                    <div class="card-values">
+                        <div class="value-item">
+                            <span class="label">Mensual:</span>
+                            <span class="value" id="resumen-lees-mensual">S/ 0.00</span>
+                        </div>
+                        <div class="value-item">
+                            <span class="label">Anual:</span>
+                            <span class="value" id="resumen-lees-anual">S/ 0.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card savings-card">
+                <div class="card-content">
+                    <h3>Tu Ahorro Total</h3>
+                    <div class="card-values">
+                        <div class="value-item">
+                            <span class="label">Mensual:</span>
+                            <span class="value highlight" id="resumen-ahorro-mensual">S/ 0.00</span>
+                        </div>
+                        <div class="value-item">
+                            <span class="label">Anual:</span>
+                            <span class="value highlight" id="resumen-ahorro-anual">S/ 0.00</span>
+                        </div>
+                        <div class="value-item">
+                            <span class="label">% Ahorro:</span>
+                            <span class="value highlight" id="resumen-porcentaje-total">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading overlay -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="spinner"></div>
+            <p>Cargando datos...</p>
+        </div>
+    </div>
+
+    <script src="web_script_lees/calculadora-resumida.js"></script>
+    <script src="web_script_lees/config-lees.js"></script>
+    <script src="web_script_lees/metodos-lees.js"></script>
+</body>
+</html>
