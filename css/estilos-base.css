@@ -318,6 +318,28 @@ footer {
   }
 }
 
+/* Botón Volver */
+.back-button {
+  display: inline-block;
+  margin: 20px 0;
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(180deg, rgba(33, 97, 231, 0.95), rgba(33, 97, 231, 0.8));
+  color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 16px rgba(33, 97, 231, 0.35);
+}
+
+.back-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(33, 97, 231, 0.5);
+}
+
+
 @media (max-width: 480px) {
   .quantity-input,
   .format-select,
