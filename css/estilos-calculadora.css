@@ -1,0 +1,300 @@
+/* ============================= */
+/* ====== CALCULADORA PRECIOS === */
+/* ============================= */
+
+/* Manteniendo solo estilos específicos de la calculadora de precios */
+
+/* Controles de moneda */
+.currency-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.currency-select {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.currency-select:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.currency-select:focus {
+  border-color: #2161e7;
+  box-shadow: 0 0 0 2px rgba(33, 97, 231, 0.5);
+}
+
+.currency-select option {
+  background-color: #1c1f2c;
+  color: #ffffff;
+}
+
+/* Sección de cálculo */
+.calculation-section {
+  background: rgba(255, 255, 255, 0);
+  border: none;
+  border-radius: 14px;
+  padding: 20px;
+  backdrop-filter: blur(8px);
+  margin-bottom: 28px;
+}
+
+/* Tabla de comparación específica */
+.comparison-table {
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+}
+
+.comparison-table tr {
+  display: table-row;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.comparison-table thead tr {
+  background-color: none;
+  color: white;
+}
+
+.comparison-table thead th {
+  padding: 12px 16px;
+  background: none;
+  text-align: center;
+}
+
+.comparison-table thead th:first-child {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.comparison-table thead th:last-child {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+/* Filas alternadas con forma ovalada */
+.comparison-table tbody tr:nth-child(1) {
+  background-color: #2b3045;
+}
+.comparison-table tbody tr:nth-child(2) {
+  background-color: #1c1f2c;
+}
+.comparison-table tbody tr:nth-child(3) {
+  background-color: #2b3045;
+}
+.comparison-table tbody tr:nth-child(4) {
+  background-color: #1c1f2c;
+}
+.comparison-table tbody tr:nth-child(5) {
+  background-color: #2b3045;
+}
+.comparison-table tbody tr:nth-child(6) {
+  background-color: #1c1f2c;
+}
+.comparison-table tbody tr:nth-child(7) {
+  background-color: #2b3045;
+}
+
+.comparison-table tbody tr:last-child {
+  background-color: #2559f6;
+  color: white;
+  font-weight: bold;
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 12px 16px;
+  text-align: left;
+  color: white;
+}
+
+.comparison-table tbody td {
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.comparison-table tbody td:first-child {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  text-align: left;
+}
+
+.comparison-table tbody td:last-child {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.concept-col {
+  text-align: left;
+  width: 28%;
+}
+
+.modality-col {
+  width: 18%;
+}
+
+.concept-cell {
+  text-align: left;
+  color: #e8eaed;
+  font-weight: 500;
+}
+
+.input-cell input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.95rem;
+  transition: all .25s ease;
+}
+
+.input-cell input[type="number"]::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.input-cell input[type="number"]:focus {
+  outline: none;
+  border-color: #2161e7;
+  box-shadow: 0 0 0 3px rgba(33, 97, 231, 0.25);
+  background: rgba(33, 97, 231, 0.12);
+}
+
+.output-cell {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Cards de resumen específicos */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.summary-cards .summary-card {
+  background: linear-gradient(180deg, rgba(33, 97, 231, 0.95), rgba(33, 97, 231, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 28px rgba(33, 97, 231, 0.35);
+}
+
+.summary-cards .summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(33, 97, 231, 0.45);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.card-icon {
+  position: relative;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  font-size: 2rem;
+  margin-bottom: 8px;
+  opacity: 0.95;
+}
+
+.icono {
+  width: 45px;
+  height: 43px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  padding: 6px;
+}
+
+.card-title {
+  font-size: 23px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.card-values {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.value-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px dashed rgba(255, 255, 255, 0.25);
+}
+
+.value-item:first-child {
+  border-top: none;
+}
+
+.label {
+  font-size: 0.95rem;
+  color: #e8eaed;
+}
+
+.value {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.highlight {
+  color: #d1ecf1;
+}
+
+.updated {
+  animation: highlightRow 0.4s ease;
+}
+
+@keyframes highlightRow {
+  0% {
+    background-color: rgba(255, 216, 107, 0.35);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+/* Responsive específico */
+@media (max-width: 768px) {
+  .comparison-table thead th {
+    font-size: 0.9rem;
+    padding: 12px 8px;
+  }
+  .comparison-table tbody td {
+    padding: 10px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .comparison-table thead th {
+    font-size: 0.85rem;
+  }
+  .value {
+    font-size: 1.05rem;
+  }
+}

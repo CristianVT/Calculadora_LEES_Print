@@ -4,19 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calculadora de Consumo de Energía</title>
-  <link rel="stylesheet" href="css/estilos.css">
+  
+  <!-- CSS base -->
+  <link rel="stylesheet" href="css/estilos-base.css">
+  <link rel="stylesheet" href="css/estilos-layout.css">
+  <link rel="stylesheet" href="css/estilos-componentes.css">
+  <link rel="stylesheet" href="css/estilos-media.css">
+  
+  <!-- CSS específico -->
+  <link rel="stylesheet" href="css/estilos-energia.css">
 </head>
 <body class="estilos-calculadora-lees">
-
+  
   <div class="container-calculadora-lees">
-    <button onclick="location.href='index.html'" class="back-button">← Volver</button>
-
+    
     <!-- Header -->
-    <header class="header-bienvenida">
-      <h1 class="main-title-calculadora-lees">Calculadora de Consumo Energético</h1>
+    <header class="bienvenida-header">
+      <h1 class="titulo-calculadora-energia">Calculadora de Consumo Energético</h1>
       <p>Aquí podrás comparar el consumo y ahorro energético de impresoras.</p>
+      <button onclick="location.href='index.html'" class="btn-back">← Volver al Inicio</button>
     </header>
-
+    
     <!-- Parámetros -->
     <div class="section-title blue">
       <h2>Parámetros de Cálculo</h2>
@@ -25,31 +33,31 @@
       <div class="inputs-grid">
         <div class="input-group">
           <label for="hoursInput">Horas de encendido (h)</label>
-          <input type="number" id="hoursInput" value="0" 
-                 onfocus="if(this.value=='0') this.value='';" 
+          <input type="number" id="hoursInput" value="0"
+                 onfocus="if(this.value=='0') this.value='';"
                  onblur="if(this.value=='') this.value='0';">
         </div>
         <div class="input-group">
           <label for="a4Input">Impresiones A4 x Día</label>
-          <input type="number" id="a4Input" value="0" 
-                 onfocus="if(this.value=='0') this.value='';" 
+          <input type="number" id="a4Input" value="0"
+                 onfocus="if(this.value=='0') this.value='';"
                  onblur="if(this.value=='') this.value='0';">
         </div>
         <div class="input-group">
           <label for="a3Input">Impresiones A3 x Día</label>
-          <input type="number" id="a3Input" value="0" 
-                 onfocus="if(this.value=='0') this.value='';" 
+          <input type="number" id="a3Input" value="0"
+                 onfocus="if(this.value=='0') this.value='';"
                  onblur="if(this.value=='') this.value='0';">
         </div>
       </div>
     </div>
-
+    
     <!-- Comparación -->
     <div class="section-title green">
       <h2>Comparación de Impresoras</h2>
     </div>
     <div class="section-body table-container">
-      <table id="resultsTable">
+      <table id="resultsTable" class="data-table">
         <thead>
           <tr>
             <th>Impresora</th>
@@ -82,37 +90,35 @@
         </tbody>
       </table>
     </div>
-
     
-
     <!-- Resumen -->
     <div class="section-title orange">
       <h2>Resumen de Ahorro</h2>
     </div>
     
     <div class="results-summary">
-      <div class="card">
+      <div class="summary-card">
         <h3>Descuento Mensual</h3>
         <span id="descuentoMes">S/. 0.00</span>
       </div>
-      <div class="card">
+      <div class="summary-card">
         <h3>Descuento Anual</h3>
         <span id="descuentoAnual">S/. 0.00</span>
       </div>
-      <div class="card">
+      <div class="summary-card">
         <h3>Beneficio</h3>
         <span id="beneficio">0.00 %</span>
       </div>
     </div>
-
+    
     <!-- Notas -->
     <div class="notes">
       <p>Los cálculos se basan en un precio de energía de <strong>S/. 0.66 por kWh</strong>.</p>
       <p>La impresora <strong>EPSON L8180</strong> se utiliza como referencia para los cálculos de ahorro.</p>
     </div>
-
+    
   </div>
-
+  
   <script src="js/consumo_energia.js"></script>
 </body>
 </html>

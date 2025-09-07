@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Calculadora LEES Print - Resumen</title>
+
+    <!-- CSS base (comunes a todas las páginas) -->
+    <link rel="stylesheet" href="css/estilos-base.css">
+    <link rel="stylesheet" href="css/estilos-layout.css">
+    <link rel="stylesheet" href="css/estilos-componentes.css">
+    <link rel="stylesheet" href="css/estilos-media.css">
+
+    <!-- CSS específico para esta calculadora -->
+    <link rel="stylesheet" href="css/estilos-calculadora.css">
+</head>
+<body class="estilos-calculadora-lees">
+
+  <div class="container-calculadora-lees">
+
+    <!-- Header -->
+    <header class="bienvenida-header">
+      <h1 class="main-title-calculadora-lees">Calcula tus Ganancias</h1>
+      <button onclick="location.href='index.html'" class="btn-back">← Volver al Inicio</button>
+
+      <div class="calculator-header" aria-hidden="false">
+        <div class="currency-controls">
+          <label for="currencySelect">Moneda:</label>
+          <select id="currencySelect" class="currency-select">
+            <option value="PEN">Soles (S/)</option>
+            <option value="USD">Dólares ($)</option>
+            <option value="BOTH">Ambas</option>
+          </select>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- Sección de cálculo (tabla superior) -->
+    <section class="calculation-section">
+      <table class="comparison-table data-table" aria-describedby="table-desc">
+        <caption id="table-desc" style="display:none">
+          Comparación de costos entre Placas PET y LEES Print por modalidad
+        </caption>
+        <thead>
+          <tr>
+            <th class="concept-col">Concepto</th>
+            <th class="modality-col">Rayos X</th>
+            <th class="modality-col">Mamografía</th>
+            <th class="modality-col">Tomografía</th>
+            <th class="modality-col">Resonancia</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Exámenes por mes (inputs) -->
+          <tr class="input-row">
+            <td class="concept-cell">Exámenes de imagen por mes</td>
+
+            <td class="input-cell">
+              <input type="number" id="inputExamenesRx" class="input-number" value="0"
+                onfocus="if(this.value=='0') this.value='';" 
+                onblur="if(this.value=='') this.value='0';">
+            </td>
+
+            <td class="input-cell">
+              <input type="number" id="inputExamenesMg" class="input-number" value="0"
+                onfocus="if(this.value=='0') this.value='';" 
+                onblur="if(this.value=='') this.value='0';">
+            </td>
+
+            <td class="input-cell">
+              <input type="number" id="inputExamenesTc" class="input-number" value="0"
+                onfocus="if(this.value=='0') this.value='';" 
+                onblur="if(this.value=='') this.value='0';">
+            </td>
+
+            <td class="input-cell">
+              <input type="number" id="inputExamenesRm" class="input-number" value="0"
+                onfocus="if(this.value=='0') this.value='';" 
+                onblur="if(this.value=='') this.value='0';">
+            </td>
+          </tr>
+
+          <!-- Placas por mes (puede ser calculado o user-provided) -->
+          <tr class="input-row">
+            <td class="concept-cell">Placas por mes</td>
+
+            <td class="input-cell">
+              <input type="number" id="inputPlacasRx" class="input-number" value="0"
+                onfocus="if(this.value=='0') this.value='';" 
+                onblur="if(this.value=='') this.value='0';">
+            </td>
+
+            <td class="input-cell">
+              <input type="number" id="inputPlacasMg" class="input-number" value="0"
+                onfocus="if(this.value=='0') this.value='';" 
+                onblur="if(this.value=='') this.value='0';">
+            </td>
+
+            <td class="input-cell">
+              <input type="number" id="inputPlacasTc" class="input-number" value="0"
+                onfocus="if(this.value=='0') this.value='';" 
+                onblur="if(this.value=='') this.value='0';">
+            </td>
+
+            <td class="input-cell">
+              <input type="number" id="inputPlacasRm" class="input-number" value="0"
+                onfocus="if(this.value=='0') this.value='';" 
+                onblur="if(this.value=='') this.value='0';">
+            </td>
+          </tr>
+
+          <!-- COSTO PET -->
+          <tr class="output-row">
+            <td class="concept-cell">Costo PET</td>
+            <td class="output-cell" id="outputCostoPetRx">S/ 0.00</td>
+            <td class="output-cell" id="outputCostoPetMg">S/ 0.00</td>
+            <td class="output-cell" id="outputCostoPetTc">S/ 0.00</td>
+            <td class="output-cell" id="outputCostoPetRm">S/ 0.00</td>
+          </tr>
+
+          <!-- TOTAL MENSUAL PET -->
+          <tr class="output-row">
+            <td class="concept-cell">Total mensual PET</td>
+            <td class="output-cell" id="outputTotalPetRx">S/ 0.00</td>
+            <td class="output-cell" id="outputTotalPetMg">S/ 0.00</td>
+            <td class="output-cell" id="outputTotalPetTc">S/ 0.00</td>
+            <td class="output-cell" id="outputTotalPetRm">S/ 0.00</td>
+          </tr>
+
+          <!-- COSTO LEES -->
+          <tr class="output-row">
+            <td class="concept-cell">Costo LEES (tinta + papel)</td>
+            <td class="output-cell" id="outputCostoLeesRx">S/ 0.00</td>
+            <td class="output-cell" id="outputCostoLeesMg">S/ 0.00</td>
+            <td class="output-cell" id="outputCostoLeesTc">S/ 0.00</td>
+            <td class="output-cell" id="outputCostoLeesRm">S/ 0.00</td>
+          </tr>
+
+          <!-- TOTAL MENSUAL LEES -->
+          <tr class="output-row">
+            <td class="concept-cell">Total mensual LEES</td>
+            <td class="output-cell" id="outputTotalLeesRx">S/ 0.00</td>
+            <td class="output-cell" id="outputTotalLeesMg">S/ 0.00</td>
+            <td class="output-cell" id="outputTotalLeesTc">S/ 0.00</td>
+            <td class="output-cell" id="outputTotalLeesRm">S/ 0.00</td>
+          </tr>
+
+          <!-- AHORRO MENSUAL -->
+          <tr class="output-row">
+            <td class="concept-cell">Ahorro mensual</td>
+            <td class="output-cell" id="outputAhorroRx">S/ 0.00</td>
+            <td class="output-cell" id="outputAhorroMg">S/ 0.00</td>
+            <td class="output-cell" id="outputAhorroTc">S/ 0.00</td>
+            <td class="output-cell" id="outputAhorroRm">S/ 0.00</td>
+          </tr>
+
+          <!-- % AHORRO -->
+          <tr class="output-row percentage-row">
+            <td class="concept-cell">% de Ahorro</td>
+            <td class="output-cell" id="outputPorcentajeRx">0%</td>
+            <td class="output-cell" id="outputPorcentajeMg">0%</td>
+            <td class="output-cell" id="outputPorcentajeTc">0%</td>
+            <td class="output-cell" id="outputPorcentajeRm">0%</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Resumen General Comparativo -->
+    <h2 class="section-title">Resumen General Comparativo</h2>
+    <div class="summary-cards">
+
+      <div class="summary-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <img src="img/streamline-freehand-color_saving-bag-increase.png" alt="icono ahorro" class="icono">
+          </div>
+          <h3 class="card-title">Costo Total PET</h3>
+        </div>
+        <div class="card-values">
+          <div class="value-item">
+            <span class="label">Costo Total Mensual:</span>
+            <span class="value" id="resumenPetMensual">S/ 0.00</span>
+          </div>
+          <div class="value-item">
+            <span class="label">Costo Anual Proyectado:</span>
+            <span class="value" id="resumenPetAnual">S/ 0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <img src="img/la_x-ray.png" alt="icono lees" class="icono">
+          </div>
+          <h3 class="card-title">Costo Total LEES</h3>
+        </div>
+        <div class="card-values">
+          <div class="value-item">
+            <span class="label">Costo Total Mensual:</span>
+            <span class="value" id="resumenLeesMensual">S/ 0.00</span>
+          </div>
+          <div class="value-item">
+            <span class="label">Costo Anual Proyectado:</span>
+            <span class="value" id="resumenLeesAnual">S/ 0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <div class="card-header">
+          <div class="card-icon">
+            <img src="img/mingcute_file-line.png" alt="icono ahorro total" class="icono">
+          </div>
+          <h3 class="card-title">Tu Ahorro Total</h3>
+        </div>
+        <div class="card-values">
+          <div class="value-item">
+            <span class="label">Ahorro Mensual:</span>
+            <span class="value highlight" id="resumenAhorroMensual">S/ 0.00</span>
+          </div>
+          <div class="value-item">
+            <span class="label">Ahorro Anual:</span>
+            <span class="value highlight" id="resumenAhorroAnual">S/ 0.00</span>
+          </div>
+          <div class="value-item">
+            <span class="label">Porcentaje de Ahorro:</span>
+            <span class="value highlight" id="resumenPorcentajeTotal">0%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts (mantengo la misma organización que tenías) -->
+  <script src="js/config.js"></script>
+  <script src="js/metodos.js"></script>
+  <script src="js/calculadora-precios.js"></script>
+</body>
+</html>

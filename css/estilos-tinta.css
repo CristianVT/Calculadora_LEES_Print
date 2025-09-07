@@ -1,411 +1,262 @@
-/* Estilos para la sección de consumo de tinta */
+/* ============================= */
+/* ====== CONSUMO DE TINTA ===== */
+/* ============================= */
 
-/* Ink Calculation Section */
-.ink-calculation-section {
-  background: linear-gradient(135deg, #f1f3f4, #e8eaf6);
-  padding: 30px;
-  border-radius: 15px;
-  margin-bottom: 30px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+/* Manteniendo solo estilos específicos de la página de tinta */
+
+.color-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* espacio entre círculo y texto */
 }
 
-.ink-calculation-section h2 {
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 15px;
-  font-size: 2rem;
+.color-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
 }
 
-.ink-note {
+
+/* Colores de las líneas de tinta */
+.negro-circle { background-color: #06080F; }
+.gris-circle { background-color: #808080; }
+.cyan-circle { background-color: #00B7EB; }
+.amarillo-circle { background-color: #FFEB00; }
+.magenta-circle { background-color: #EB008C; }
+.black-circle { background-color: #000000; }
+
+/* Tabla específica de tinta */
+.data-table .total-row {
+  font-weight: 800;
+}
+
+/* Filas alternadas con forma ovalada */
+.data-table tbody tr:nth-child(1) {
+  background-color: #2b3045;
+}
+.data-table tbody tr:nth-child(2) {
+  background-color: #1c1f2c;
+}
+.data-table tbody tr:nth-child(3) {
+  background-color: #2b3045;
+}
+.data-table tbody tr:nth-child(4) {
+  background-color: #1c1f2c;
+}
+
+
+.data-table th,
+.data-table td {
+  padding: 12px 16px;
+  text-align: left;
+  color: white;
+}
+
+.data-table thead th {
+  padding: 12px 16px;
+  background: none;
   text-align: center;
-  color: #666;
-  font-style: italic;
-  margin-bottom: 10px;
-  font-size: 0.95rem;
+}
+
+.data-table thead th:first-child {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.data-table thead th:last-child {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.data-table tbody td {
+  padding: 12px 10px;
+  text-align: center;
+}
+
+.data-table tbody td:first-child {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  text-align: left;
+}
+
+.data-table tbody td:last-child {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+
+/* Notas específicas de tinta */
+.ink-note,
+.ink-bottles-note {
+  margin-bottom: 12px;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
 }
 
 .ink-bottles-note {
-  text-align: center;
-  color: #27ae60;
-  font-weight: 600;
-  margin-bottom: 25px;
-  font-size: 1.1rem;
-  background: rgba(39, 174, 96, 0.1);
-  padding: 10px 20px;
-  border-radius: 25px;
-  display: inline-block;
-  width: 100%;
-}
-
-/* Ink Table Styles */
-.ink-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 30px;
-  background: white;
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.ink-table th,
-.ink-table td {
-  padding: 12px 8px;
-  text-align: center;
-  border-bottom: 1px solid #e9ecef;
-  font-size: 0.9rem;
-}
-
-.ink-table th {
-  background: #34495e;
-  color: white;
   font-weight: 600;
 }
 
-.modalidad-col {
-  background: #2c3e50 !important;
-  text-align: left;
-  width: 16%;
-}
-
-.tinta-col {
-  width: 11%;
-}
-
-.total-col {
-  width: 12%;
-}
-
-/* Color headers */
-.negro-header {
-  background: #06080f !important;
-}
-
-.gris-header {
-  background: #808080 !important;
-}
-
-.cyan-header {
-  background: #00b7eb !important;
-}
-
-.amarillo-header {
-  background: #ffeb00 !important;
-  color: #2c3e50 !important;
-}
-
-.magenta-header {
-  background: #eb008c !important;
-}
-
-.black-header {
-  background: #000000 !important;
-}
-
-/* Table cells */
-.modalidad-cell {
-  text-align: left;
-  font-weight: 600;
-  background: #f8f9fa;
-  color: #2c3e50;
-  padding: 15px 12px;
-}
-
-.tc-cell {
-  border-left: 4px solid #e74c3c;
-}
-
-.mg-cell {
-  border-left: 4px solid #9b59b6;
-}
-
-.rm-cell {
-  border-left: 4px solid #27ae60;
-}
-
-.rx-cell {
-  border-left: 4px solid #f39c12;
-}
-
-.total-label {
-  background: #34495e !important;
-  color: white !important;
-  border-left: 4px solid #2c3e50 !important;
-}
-
-.tinta-value {
-  font-weight: 600;
-  color: #34495e;
-  background: #f8f9fa;
-}
-
-.total-ink-value {
-  font-weight: 700;
-  color: #27ae60;
-  background: #e8f5e8;
-}
-
-.total-tinta {
-  background: #e2e3e5 !important;
-  color: #2c3e50 !important;
-  font-weight: 700;
-}
-
-.total-general {
-  background: #d4edda !important;
-  color: #155724 !important;
-  font-size: 1.1rem;
-}
-
-.ink-table .total-row {
-  background: #ecf0f1;
-}
-
-/* Bottles Section */
-.bottles-section {
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-.bottles-section h3 {
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 25px;
-  font-size: 1.5rem;
-}
-
+/* Contenedor principal para la cuadrícula */
 .bottles-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
-  margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    background: #2b3045;
+    border-radius: 14px;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto 28px;
+    border: none
 }
+
+/* Estilo de cada tarjeta de botella */
 
 .bottle-card {
-  background: linear-gradient(135deg, #fff, #f8f9fa);
-  border: 2px solid #e9ecef;
-  border-radius: 15px;
-  padding: 12px;
-  text-align: center;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  min-width: 0; /* Permite que las tarjetas se compriman */
+    flex: 1;
+    border: none;
+    background: #2b3045;
+    padding: 16px;
+    text-align: center;
+    transition: transform .2s ease, box-shadow .2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 220px;
+    position: relative;
+    gap: 15px;
 }
 
-.bottle-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+/* Borde derecho para separar tarjetas, excepto la última */
+.bottles-grid-container .bottle-card:not(:last-child) {
+    border-right: none;
 }
 
-.bottle-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  transition: all 0.3s ease;
+/* Bordes redondeados para la primera y última tarjeta */
+.bottles-grid-container .bottle-card:first-child {
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+}
+.bottles-grid-container .bottle-card:last-child {
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
 }
 
-.negro-bottle::before {
-  background: linear-gradient(90deg, #06080f, #06080f);
+/* Estilo para las imágenes de las botellas */
+.bottle-img {
+    max-width: 42px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    border-radius: 10px;
+    transform: rotate(180deg);
 }
 
-.gris-bottle::before {
-  background: linear-gradient(90deg, #808080, #808080);
-}
-
-.cyan-bottle::before {
-  background: linear-gradient(90deg, #00b7eb, #00b7eb);
-}
-
-.amarillo-bottle::before {
-  background: linear-gradient(90deg, #ffeb00, #ffeb00);
-}
-
-.magenta-bottle::before {
-  background: linear-gradient(90deg, #eb008c, #eb008c);
-}
-
-.black-bottle::before {
-  background: linear-gradient(90deg, #000000, #000000);
-}
-
-.bottle-icon {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 120px;
-}
-
-.bottle-card h4 {
-  color: #2c3e50;
-  margin-bottom: 15px;
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
+/* Contenedor de la información */
 .bottle-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-grow: 1;
+}
+
+/* Línea de color de la tinta */
+.color-line {
+    width: 30px;
+    height: 6.6px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+/* Estilo del nombre de la botella */
+.bottle-name {
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 18px;
+}
+
+/* Estilo del contador de botellas */
+.bottle-count-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+
+.bottle-x {
+  font-size: 18px;
+  font-weight: 100;
+  color: #ffffff;
 }
 
 .bottle-count {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #27ae60;
+  font-size: 18px;
+  font-weight: 100;
+  color: #ffffff;
 }
 
-.bottle-label {
-  font-size: 0.9rem;
-  color: #666;
-  font-weight: 500;
+.bottle-period {
+  font-size: 18px;
+  font-weight: 100;
+  color: #ffffff;
 }
 
-/* Bottles Summary */
+/* Colores de las líneas de tinta */
+.negro-line { background-color: #06080F; }
+.gris-line { background-color: #808080; }
+.cyan-line { background-color: #00B7EB; }
+.amarillo-line { background-color: #FFEB00; }
+.magenta-line { background-color: #EB008C; }
+.black-line { background-color: #000000; }
+
+/* Resumen de botellas */
 .bottles-summary {
-  background: linear-gradient(135deg, #27ae60, #2ecc71);
-  color: white;
-  padding: 20px;
+  margin-top: 12px;
+  background: linear-gradient(180deg, rgba(33, 97, 231, 0.95), rgba(33, 97, 231, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 12px;
+  padding: 16px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  text-align: center;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
 }
 
 .summary-item-ink {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
 }
 
 .summary-item-ink .label {
-  font-size: 1rem;
-  opacity: 0.9;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.95);
+  font-weight: 600;
 }
 
 .summary-item-ink .value {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #ffffff;
 }
 
-.total-bottles-value {
-  color: #fff;
-}
-
-.annual-bottles-value {
-  color: #f1c40f;
-}
-
-/* Estilos para las imágenes de botellas de tinta */
-.bottle-img {
-  width: 60px;
-  height: 125px;
-  object-fit: contain;
-  object-position: center;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.bottle-card:hover .bottle-img {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-/* Responsive adjustments for ink section */
-@media (max-width: 1200px) {
-  .bottles-grid {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
-}
-
+/* Responsive para botellas */
 @media (max-width: 768px) {
-  .ink-calculation-section {
-    padding: 20px;
-  }
-
-  .ink-calculation-section h2 {
-    font-size: 1.5rem;
-  }
-
-  .ink-table th,
-  .ink-table td {
-    padding: 8px 4px;
-    font-size: 0.8rem;
-  }
-
   .bottles-grid {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 15px;
+    flex-wrap: wrap;
   }
-
   .bottle-card {
-    padding: 15px;
-  }
-
-  .bottle-icon {
-    font-size: 2rem;
-    height: 120px;
-    margin-bottom: 10px;
-  }
-
-  .bottle-img {
-    width: 45px;
-    height: 112px;
-  }
-
-  .bottle-count {
-    font-size: 1.5rem;
-  }
-
-  .bottles-summary {
-    grid-template-columns: 1fr;
-    gap: 15px;
-  }
-
-  .summary-item-ink .value {
-    font-size: 1.3rem;
+    flex-basis: calc(50% - 16px);
+    margin: 8px;
+    border-radius: 12px;
   }
 }
 
 @media (max-width: 480px) {
-  .ink-table {
-    font-size: 0.7rem;
-  }
-
-  .ink-table th,
-  .ink-table td {
-    padding: 6px 2px;
-  }
-
-  .bottles-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .bottle-card {
-    padding: 12px;
-  }
-
-  .bottle-card h4 {
-    font-size: 1rem;
-  }
-
-  .bottle-img {
-    width: 35px;
-    height: 87px;
-  }
-
-  .bottle-icon {
-    height: 95px;
-    margin-bottom: 8px;
+    flex-basis: 100%;
+    min-height: 150px;
   }
 }

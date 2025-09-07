@@ -35,14 +35,13 @@ class ConfiguracionLEES {
       },
     }
 
-    // Precios PET tradicionales en soles (promedio de rangos dados)
-    this.PRECIOS_PET = {
-      TC: { A3: 2.00 }, // USD - Promedio de 7.10-7.50
-      MG: { A3: 2.00 }, // USD - Promedio de 7.10-7.50
-      RM: { A3: 2.00 }, // USD - Promedio de 7.10-7.50
+    this.PRECIOS_PET_USD = {
+      TC: { A3: 2.0 }, // USD - Promedio de 7.10-7.50 convertido a precio unitario
+      MG: { A3: 2.0 }, // USD - Promedio de 7.10-7.50 convertido a precio unitario
+      RM: { A3: 2.0 }, // USD - Promedio de 7.10-7.50 convertido a precio unitario
       RX: {
-        A4: 1.00, // USD - Promedio de 3.55-3.70
-        A3: 2.00, // USD - Promedio de 7.10-7.40
+        A4: 1.0, // USD - Promedio de 3.55-3.70 convertido a precio unitario
+        A3: 2.0, // USD - Promedio de 7.10-7.40 convertido a precio unitario
       },
     }
 
@@ -168,10 +167,9 @@ class ConfiguracionLEES {
     return 0
   }
 
-  // Método para obtener precio PET
-  getPrecioPet(modalidad, formato) {
-    if (this.PRECIOS_PET[modalidad] && this.PRECIOS_PET[modalidad][formato]) {
-      return this.PRECIOS_PET[modalidad][formato]
+  getPrecioPetUSD(modalidad, formato) {
+    if (this.PRECIOS_PET_USD[modalidad] && this.PRECIOS_PET_USD[modalidad][formato]) {
+      return this.PRECIOS_PET_USD[modalidad][formato]
     }
     return 0
   }

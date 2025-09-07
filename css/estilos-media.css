@@ -1,0 +1,94 @@
+/* ============================= */
+/* ===== RESPONSIVE MEDIA ====== */
+/* ============================= */
+
+/* Consolidando todos los media queries en un solo archivo */
+
+/* Imágenes responsive */
+.img {
+  max-width: 100px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 10px;
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .container-calculadora-lees {
+    padding: 16px;
+  }
+
+  .main-title-calculadora-lees,
+  .bienvenida-header h1 {
+    font-size: 2rem;
+  }
+
+  .inputs-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .results-summary {
+    flex-direction: column;
+  }
+
+  .summary-card {
+    min-width: auto;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 12px 10px;
+    font-size: 0.85rem;
+  }
+
+  .section-title h2 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+  .estilos-calculadora-lees {
+    padding: 16px 10px;
+  }
+
+  .container-calculadora-lees {
+    padding: 12px;
+  }
+
+  .main-title-calculadora-lees,
+  .bienvenida-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .section-body {
+    padding: 16px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 12px 10px;
+    font-size: 0.8rem;
+  }
+
+  .summary-card {
+    padding: 14px;
+  }
+
+  .summary-card h3 {
+    font-size: 1rem;
+  }
+
+  .summary-card span {
+    font-size: 1.2rem;
+  }
+}
+
+/* Responsive para botones de bienvenida */
+@media (min-width: 768px) {
+  .botones-bienvenida {
+    flex-direction: row;
+    justify-content: center;
+  }
+}

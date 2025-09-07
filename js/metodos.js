@@ -25,23 +25,34 @@ class MetodosLEES {
   redondear(amount) {
     return Math.round((amount + Number.EPSILON) * 100) / 100
   }
-  
-  parseCurrency(text) {
-  // Quita símbolos y convierte a número
-  return Number(text.replace(/[^\d.-]+/g, "")) || 0
-}
-  // Validación de inputs
-  validateInput(input) {
-    const value = Number.parseInt(input.value)
 
-    if (isNaN(value) || value < 0) {
+  parseCurrency(text) {
+    // Quita símbolos y convierte a número
+    return Number(text.replace(/[^\d.-]+/g, "")) || 0
+  }
+
+  validateInput(input) {
+    let value = input.value
+
+    // Remove any non-numeric characters
+    value = value.replace(/[^0-9]/g, "")
+
+    // Convert to integer
+    const numValue = Number.parseInt(value)
+
+    // If invalid or negative, clear the input and show visual feedback
+    if (isNaN(numValue) || numValue < 0) {
+      input.value = ""
       input.style.borderColor = "#e74c3c"
-      input.style.backgroundColor = "#fdf2f2"
+      input.style.backgroundColor = "rgba(231, 76, 60, 0.1)"
     } else {
+      // Set the cleaned value
+      input.value = numValue.toString()
       input.style.borderColor = "#27ae60"
-      input.style.backgroundColor = "#f0f8f0"
+      input.style.backgroundColor = "rgba(39, 174, 96, 0.1)"
     }
 
+    // Reset styles after 2 seconds
     setTimeout(() => {
       input.style.borderColor = ""
       input.style.backgroundColor = ""
@@ -50,11 +61,7 @@ class MetodosLEES {
 
   // Animaciones de elementos
   updateElementWithAnimation(element, value) {
-    element.textContent = value
-    element.classList.add("updated")
-    setTimeout(() => {
-      element.classList.remove("updated")
-    }, 500)
+    element.innerHTML = value
   }
 
   // Cálculos de consumo de tinta (convertido a ml)
@@ -107,10 +114,11 @@ class MetodosLEES {
     return rendimiento
   }
 
-  // Manejo de API de tipo de cambio
-  async obtenerTipoCambio(apiKey) {
+  async obtenerTipoCambio() {
     try {
-      const response = await fetch(`https://openexchangerates.org/api/latest.json?app_id=${apiKey}&symbols=PEN`)
+      const response = await fetch(
+        `https://openexchangerates.org/api/latest.json?app_id=${this.config.OPEN_EXCHANGE_RATES_API_KEY}&symbols=PEN`,
+      )
 
       if (!response.ok) {
         throw new Error("Error en la respuesta de la API")
@@ -166,11 +174,11 @@ class MetodosLEES {
     }, 3000)
   }
 
-  // Prevenir valores negativos en inputs
   configurarValidacionInputs(inputs) {
     Object.values(inputs).forEach((input) => {
+      // Prevent invalid characters on keydown
       input.addEventListener("keydown", (e) => {
-        // Permitir teclas de control
+        // Allow control keys (backspace, delete, tab, escape, enter, arrows)
         if (
           [46, 8, 9, 27, 13].indexOf(e.keyCode) !== -1 ||
           (e.keyCode === 65 && e.ctrlKey === true) ||
@@ -179,11 +187,44 @@ class MetodosLEES {
           return
         }
 
-        // Asegurar que sea un número
+        // Prevent non-numeric keys (including decimals and minus)
         if ((e.shiftKey || e.keyCode < 48 || e.keyCode > 57) && (e.keyCode < 96 || e.keyCode > 105)) {
           e.preventDefault()
         }
       })
+
+      // Additional validation on input event
+      input.addEventListener("input", (e) => {
+        this.validateInput(e.target)
+      })
+
+      // Validation on blur
+      input.addEventListener("blur", (e) => {
+        this.validateInput(e.target)
+      })
     })
+  }
+
+  // Convertir cantidad de tinta a botellas
+  convertirTintaABotellas(color, cantidadMl) {
+    return cantidadMl / this.config.VOLUMEN_BOTELLA[color]
+  }
+
+  // Calcular costo total de impresión
+  calcularCostoImpresion(modalidad, formato, tipo, cantidad, tipoCambio) {
+    const consumoTotal = this.calcularConsumoTinta(modalidad, formato, tipo, cantidad)
+    let costoTotal = 0
+
+    this.config.COLORES_TINTA.forEach((color) => {
+      const costoPorColor = consumoTotal[color] * this.config.PRECIO_TINTA[color]
+      costoTotal += costoPorColor
+    })
+
+    // Convertir a PEN si es necesario
+    if (this.config.MONEDA === "PEN") {
+      costoTotal *= tipoCambio
+    }
+
+    return costoTotal
   }
 }

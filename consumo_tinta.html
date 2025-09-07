@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Consumo de Tinta</title>
+  
+  <!-- CSS base -->
+  <link rel="stylesheet" href="css/estilos-base.css">
+  <link rel="stylesheet" href="css/estilos-layout.css">
+  <link rel="stylesheet" href="css/estilos-componentes.css">
+  <link rel="stylesheet" href="css/estilos-media.css">
+  
+  <!-- CSS específico -->
+  <link rel="stylesheet" href="css/estilos-tinta.css">
+</head>
+<body class="estilos-calculadora-lees">
+
+  <div class="container-calculadora-lees">
+
+    <!-- Header -->
+    <header class="bienvenida-header">
+      <h1 class="main-title-calculadora-lees">Calculadora de Consumo de Tinta</h1>
+      <p>Estimación del consumo mensual y anual de tinta LEES Print.</p>
+      <button onclick="location.href='index.html'" class="btn-back">← Volver al Inicio</button>
+    </header>
+
+    <!-- Parámetros -->
+    <section class="parametros-section">
+      <div class="section-title blue">
+        <h2>Parámetros de Cálculo</h2>
+      </div>
+      <div class="section-body">
+        <h3>Exámenes de imagen por mes</h3>
+        <div class="inputs-grid">
+          <div class="input-group">
+            <label for="inputExamenesRx">Rayos X</label>
+            <input type="number" id="inputExamenesRx" value="0"
+                   onfocus="if(this.value=='0') this.value='';"
+                   onblur="if(this.value=='') this.value='0';">
+          </div>
+          <div class="input-group">
+            <label for="inputExamenesMg">Mamografía</label>
+            <input type="number" id="inputExamenesMg" value="0"
+                   onfocus="if(this.value=='0') this.value='';"
+                   onblur="if(this.value=='') this.value='0';">
+          </div>
+          <div class="input-group">
+            <label for="inputExamenesTc">Tomografía</label>
+            <input type="number" id="inputExamenesTc" value="0"
+                   onfocus="if(this.value=='0') this.value='';"
+                   onblur="if(this.value=='') this.value='0';">
+          </div>
+          <div class="input-group">
+            <label for="inputExamenesRm">Resonancia</label>
+            <input type="number" id="inputExamenesRm" value="0"
+                   onfocus="if(this.value=='0') this.value='';"
+                   onblur="if(this.value=='') this.value='0';">
+          </div>
+        </div>
+
+        <h3>Placas por mes (calculado automáticamente)</h3>
+        <div class="inputs-grid">
+          <div class="input-group">
+            <label for="outputPlacasRx">Rayos X</label>
+            <input type="number" id="outputPlacasRx" value="0"
+                   onfocus="if(this.value=='0') this.value='';"
+                   onblur="if(this.value=='') this.value='0';">
+          </div>
+          <div class="input-group">
+            <label for="outputPlacasMg">Mamografía</label>
+            <input type="number" id="outputPlacasMg" value="0"
+                   onfocus="if(this.value=='0') this.value='';"
+                   onblur="if(this.value=='') this.value='0';">
+          </div>
+          <div class="input-group">
+            <label for="outputPlacasTc">Tomografía</label>
+            <input type="number" id="outputPlacasTc" value="0" 
+                   onfocus="if(this.value=='0') this.value='';"
+                   onblur="if(this.value=='') this.value='0';">
+          </div>
+          <div class="input-group">
+            <label for="outputPlacasRm">Resonancia</label>
+            <input type="number" id="outputPlacasRm" value="0"
+                   onfocus="if(this.value=='0') this.value='';"
+                   onblur="if(this.value=='') this.value='0';">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tabla de consumo de tinta -->
+    <section class="tinta-section">
+      <div class="section-title green">
+        <h2>Consumo Estimado de Tinta LEES Print</h2>
+      </div>
+      <div class="section-body">
+        <p class="ink-note">Cálculo mensual en mililitros (ml) basado en consumo por impresión.</p>
+        <p class="ink-bottles-note">Cada botella tiene capacidad útil de <strong>70 ml</strong>.</p>
+
+        <table class="ink-table data-table">
+          <thead>
+            <tr>
+              <th>Modalidad</th>
+              <th><span class="color-label"><div class="color-circle negro-circle"></div>Negro PB</span></th>
+              <th><span class="color-label"><div class="color-circle gris-circle"></div>Gris</span></th>
+              <th><span class="color-label"><div class="color-circle cyan-circle"></div>Cyan</span></th>
+              <th><span class="color-label"><div class="color-circle amarillo-circle"></div>Amarillo</span></th>
+              <th><span class="color-label"><div class="color-circle magenta-circle"></div>Magenta</span></th>
+              <th><span class="color-label"><div class="color-circle black-circle"></div>Black</span></th>
+              <th>Total ml</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Tomografía (TC)</td>
+              <td id="tintaTcNegro">0.000 ml</td>
+              <td id="tintaTcGris">0.000 ml</td>
+              <td id="tintaTcCyan">0.000 ml</td>
+              <td id="tintaTcAmarillo">0.000 ml</td>
+              <td id="tintaTcMagenta">0.000 ml</td>
+              <td id="tintaTcBlack">0.000 ml</td>
+              <td id="tintaTcTotal">0.000 ml</td>
+            </tr>
+            <tr>
+              <td>Mamografía (MG)</td>
+              <td id="tintaMgNegro">0.000 ml</td>
+              <td id="tintaMgGris">0.000 ml</td>
+              <td id="tintaMgCyan">0.000 ml</td>
+              <td id="tintaMgAmarillo">0.000 ml</td>
+              <td id="tintaMgMagenta">0.000 ml</td>
+              <td id="tintaMgBlack">0.000 ml</td>
+              <td id="tintaMgTotal">0.000 ml</td>
+            </tr>
+            <tr>
+              <td>Resonancia (RM)</td>
+              <td id="tintaRmNegro">0.000 ml</td>
+              <td id="tintaRmGris">0.000 ml</td>
+              <td id="tintaRmCyan">0.000 ml</td>
+              <td id="tintaRmAmarillo">0.000 ml</td>
+              <td id="tintaRmMagenta">0.000 ml</td>
+              <td id="tintaRmBlack">0.000 ml</td>
+              <td id="tintaRmTotal">0.000 ml</td>
+            </tr>
+            <tr>
+              <td>Rayos X (RX)</td>
+              <td id="tintaRxNegro">0.000 ml</td>
+              <td id="tintaRxGris">0.000 ml</td>
+              <td id="tintaRxCyan">0.000 ml</td>
+              <td id="tintaRxAmarillo">0.000 ml</td>
+              <td id="tintaRxMagenta">0.000 ml</td>
+              <td id="tintaRxBlack">0.000 ml</td>
+              <td id="tintaRxTotal">0.000 ml</td>
+            </tr>
+            <tr class="total-row">
+              <td><strong>Total Mensual</strong></td>
+              <td id="tintaTotalNegro"><strong>0.000 ml</strong></td>
+              <td id="tintaTotalGris"><strong>0.000 ml</strong></td>
+              <td id="tintaTotalCyan"><strong>0.000 ml</strong></td>
+              <td id="tintaTotalAmarillo"><strong>0.000 ml</strong></td>
+              <td id="tintaTotalMagenta"><strong>0.000 ml</strong></td>
+              <td id="tintaTotalBlack"><strong>0.000 ml</strong></td>
+              <td id="tintaTotalGeneral"><strong>0.000 ml</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Botellas -->
+    <section class="botellas-section">
+      <div class="section-title orange">
+        <h2>Botellas de Tinta Requeridas</h2>
+      </div>
+      <div class="section-body">
+
+        <h3>Consumo Mensual</h3>
+
+        <div class="bottles-grid">
+          
+          <div class="bottle-card">
+            <img src="img/Epson_NegroPB.jpg" alt="Negro PB" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line negro-line"></div>
+                <h4 class="bottle-name">Negro PB</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasNegroMes">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+
+          <div class="bottle-card">
+            <img src="img/Epson_Gris.jpg" alt="Gris" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line gris-line"></div>
+                <h4 class="bottle-name">Negro PB</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasGrisMes">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+
+          <div class="bottle-card">
+            <img src="img/Epson_Cyan.jpg" alt="Cyan" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line cyan-line"></div>
+                <h4 class="bottle-name">Cyan</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasCyanMes">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="bottle-card">
+            <img src="img/Epson_Amarillo.jpg" alt="Amarillo" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line amarillo-line"></div>
+                <h4 class="bottle-name">Amarillo</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasAmarilloMes">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="bottle-card">
+            <img src="img/Epson_Magenta.jpg" alt="Magenta" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line magenta-line"></div>
+                <h4 class="bottle-name">Magenta</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasMagentaMes">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="bottle-card">
+            <img src="img/Epson_Black.jpg" alt="Black" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line black-line"></div>
+                <h4 class="bottle-name">Black</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasBlackMes">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+
+        </div>
+
+        <h3>Proyección Anual</h3>
+        <div class="bottles-grid">
+          
+          <div class="bottle-card">
+            <img src="img/Epson_NegroPB.jpg" alt="Negro PB" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line negro-line"></div>
+                <h4 class="bottle-name">Negro PB</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasNegroAnual">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+
+          <div class="bottle-card">
+            <img src="img/Epson_Gris.jpg" alt="Gris" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line gris-line"></div>
+                <h4 class="bottle-name">Negro PB</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasGrisAnual">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+
+          <div class="bottle-card">
+            <img src="img/Epson_Cyan.jpg" alt="Cyan" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line cyan-line"></div>
+                <h4 class="bottle-name">Cyan</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasCyanAnual">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="bottle-card">
+            <img src="img/Epson_Amarillo.jpg" alt="Amarillo" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line amarillo-line"></div>
+                <h4 class="bottle-name">Amarillo</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasAmarilloAnual">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="bottle-card">
+            <img src="img/Epson_Magenta.jpg" alt="Magenta" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line magenta-line"></div>
+                <h4 class="bottle-name">Magenta</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasMagentaAnual">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="bottle-card">
+            <img src="img/Epson_Black.jpg" alt="Black" class="bottle-img">
+            <div class="bottle-info">
+                <div class="color-line black-line"></div>
+                <h4 class="bottle-name">Black</h4>
+                <div class="bottle-count-container">
+                    <div class="bottle-x">x</div>
+                    <span class="bottle-count" id="botellasBlackAnual">0</span>
+                    <div class="bottle-period">Botellas</div>
+                </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resumen -->
+        <div class="bottles-summary">
+          <div class="summary-item-ink">
+            <span class="label">Total de Botellas Mensuales:</span>
+            <img src="img/DIPTICO 1.png" alt="icono tinta" class="icono-tinta">
+            <span id="totalBotellasMes" class="value">0 botellas</span>
+          </div>
+          <div class="summary-item-ink">
+            <span class="label">Total de Botellas Anual:</span>
+            <img src="img/DIPTICO 1.png" alt="icono tinta" class="icono-tinta">
+            <span id="totalBotellasAnual" class="value">0 botellas</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/metodos.js"></script>
+  <script src="js/consumo-tinta.js"></script>
+</body>
+</html>
