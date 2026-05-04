@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Calculadora Comparativa LEES Print</title>
+    <link rel="icon" type="image/png" href="img/Logo.jpg">
+    <!-- CSS base (comunes a todas las páginas) -->
+    <link rel="stylesheet" href="css/estilos-base.css">
+    <link rel="stylesheet" href="css/estilos-layout.css">
+    <link rel="stylesheet" href="css/estilos-componentes.css">
+    <link rel="stylesheet" href="css/estilos-media.css">
+
+    <!-- CSS específico para esta calculadora -->
+    <link rel="stylesheet" href="css/estilos-calculadora.css">
+    <style>
+      .btn-back {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255,255,255,0.3);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 20px;
+        transition: all 0.2s ease;
+      }
+      .btn-back:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+      
+      /* Sobrescribiendo el fondo de las tarjetas de resumen a un tono neutro para resaltar las líneas */
+      .summary-cards .summary-card {
+        background: #2a2d3c !important; 
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-top: 5px solid transparent !important; /* Transparente para los primeros dos */
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25) !important;
+      }
+      
+      /* Estados dinámicos de ahorro y pérdida (solo afecta a la tercera tarjeta) */
+      .summary-card.estado-ahorro {
+        border-top-color: #28a745 !important;
+      }
+      .summary-card.estado-perdida {
+        border-top-color: #dc3545 !important;
+      }
+      
+      .texto-ahorro {
+        color: #28a745 !important;
+      }
+      .texto-perdida {
+        color: #dc3545 !important;
+      }
+    </style>
+</head>
+<body class="estilos-calculadora-lees">
+
+  <div class="container-calculadora-lees">
+    <header class="bienvenida-header">
+      <h1 class="main-title-calculadora-lees">¿Cuánto ahorras con LEES Print?</h1>
+      <button onclick="location.href='index.html'" class="btn-back">← Volver al Inicio</button>
+      <p>Comparativa de impresión térmica tradicional vs. Tecnología LEES Print</p>
+    </header>
+
+    <section class="calculation-section">
+      <table class="comparison-table data-table">
+        <thead>
+          <tr>
+            <th class="concept-col">Concepto de Gasto</th>
+            <th class="modality-col">Método Tradicional (Térmico)</th>
+            <th class="modality-col">Solución LEES Print</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="input-row">
+            <td class="concept-cell">Pacientes (Exámenes) al mes</td>
+            <td colspan="2" class="input-cell" style="text-align: center;">
+              <input type="number" id="inputPacientes" class="input-number" value="200" oninput="calcularComparativa()">
+            </td>
+          </tr>
+          <tr class="input-row">
+            <td class="concept-cell">Imágenes por examen</td>
+            <td colspan="2" class="input-cell" style="text-align: center;">
+              <select id="inputImagenes" class="input-number" onchange="calcularComparativa()">
+                <option value="4">4 fotos por paciente</option>
+                <option value="6" selected>6 fotos por paciente</option>
+                <option value="8">8 fotos por paciente</option>
+                <option value="10">10 fotos por paciente</option>
+              </select>
+            </td>
+          </tr>
+          
+          <tr class="output-row">
+            <td class="concept-cell">Costo por Insumo (Papel/Tinta)</td>
+            <td class="output-cell" id="outCostoInsumoTrad">S/ 0.00</td>
+            <td class="output-cell">S/ 0.88</td>
+          </tr>
+          <tr class="output-row">
+            <td class="concept-cell">Costo Software/Licencia</td>
+            <td class="output-cell">S/ 0.00</td>
+            <td class="output-cell">S/ 0.69</td>
+          </tr>
+          <tr class="output-row">
+            <td class="concept-cell">Costo Total por Paciente</td>
+            <td class="output-cell" id="outTotalPorPacienteTrad">S/ 0.00</td>
+            <td class="output-cell">S/ 1.57</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <h2 class="section-title">Resumen de Impacto Económico</h2>
+    <div class="summary-cards">
+
+      <div class="summary-card card-gasto">
+        <div class="card-header">
+          <div class="card-icon">
+            <img src="img/streamline-freehand-color_saving-bag-increase.png" alt="icono gasto" class="icono">
+          </div>
+          <h3 class="card-title">Gasto Tradicional</h3>
+        </div>
+        <div class="card-values">
+          <div class="value-item">
+            <span class="label">Gasto Mensual:</span>
+            <span class="value" id="resumenTradMensual">S/ 0.00</span>
+          </div>
+          <div class="value-item">
+            <span class="label">Gasto Anual:</span>
+            <span class="value" id="resumenTradAnual">S/ 0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary-card card-lees">
+        <div class="card-header">
+          <div class="card-icon">
+            <img src="img/la_x-ray.png" alt="icono lees" class="icono">
+          </div>
+          <h3 class="card-title">Inversión LEES Print</h3>
+        </div>
+        <div class="card-values">
+          <div class="value-item">
+            <span class="label">Costo Mensual:</span>
+            <span class="value" id="resumenLeesMensual">S/ 0.00</span>
+          </div>
+          <div class="value-item">
+            <span class="label">Costo Anual:</span>
+            <span class="value" id="resumenLeesAnual">S/ 0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="cardResultado" class="summary-card estado-ahorro">
+        <div class="card-header">
+          <div class="card-icon">
+            <img src="img/mingcute_file-line.png" alt="icono ahorro" class="icono">
+          </div>
+          <h3 id="tituloResultado" class="card-title">Ahorro Directo</h3>
+        </div>
+        <div class="card-values">
+          <div class="value-item">
+            <span id="lblMensual" class="label">Ahorro Mensual:</span>
+            <span id="resumenAhorroMensual" class="value texto-ahorro">S/ 0.00</span>
+          </div>
+          <div class="value-item">
+            <span id="lblAnual" class="label">Ahorro Anual:</span>
+            <span id="resumenAhorroAnual" class="value texto-ahorro">S/ 0.00</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function calcularComparativa() {
+        // 1. Inputs
+        const pacientes = parseFloat(document.getElementById('inputPacientes').value) || 0;
+        const imagenes = parseInt(document.getElementById('inputImagenes').value);
+
+        // 2. Constantes
+        const COSTO_TERMICO_FOTO = 0.32;
+        const COSTO_LEES_FIJO = 1.57;
+
+        // 3. Cálculos
+        const costoTradPorPaciente = imagenes * COSTO_TERMICO_FOTO;
+        const totalMensualTrad = pacientes * costoTradPorPaciente;
+        const totalAnualTrad = totalMensualTrad * 12;
+
+        const totalMensualLees = pacientes * COSTO_LEES_FIJO;
+        const totalAnualLees = totalMensualLees * 12;
+
+        const ahorroMensual = totalMensualTrad - totalMensualLees;
+        const ahorroAnual = ahorroMensual * 12;
+
+        // 4. Función de Formateo
+        const format = (num) => {
+            const valorFormateado = Math.abs(num).toLocaleString('es-PE', {
+                minimumFractionDigits: 2, 
+                maximumFractionDigits: 2
+            });
+            return (num < 0 ? "- S/ " : "S/ ") + valorFormateado;
+        };
+
+        // 5. Renderizado de datos base
+        const formatSimple = (num) => "S/ " + num.toLocaleString('es-PE', {minimumFractionDigits: 2});
+        
+        document.getElementById('outCostoInsumoTrad').innerText = formatSimple(costoTradPorPaciente);
+        document.getElementById('outTotalPorPacienteTrad').innerText = formatSimple(costoTradPorPaciente);
+        document.getElementById('resumenTradMensual').innerText = formatSimple(totalMensualTrad);
+        document.getElementById('resumenTradAnual').innerText = formatSimple(totalAnualTrad);
+        document.getElementById('resumenLeesMensual').innerText = formatSimple(totalMensualLees);
+        document.getElementById('resumenLeesAnual').innerText = formatSimple(totalAnualLees);
+
+        // 6. LÓGICA DE DISEÑO (COLOR Y TEXTO)
+        const displayMensual = document.getElementById('resumenAhorroMensual');
+        const displayAnual = document.getElementById('resumenAhorroAnual');
+        const card = document.getElementById('cardResultado');
+        const titulo = document.getElementById('tituloResultado');
+        const lblM = document.getElementById('lblMensual');
+        const lblA = document.getElementById('lblAnual');
+
+        if (ahorroMensual < 0) {
+            // ESTADO DE PÉRDIDA (ROJO Y NEGATIVO)
+            card.classList.remove('estado-ahorro');
+            card.classList.add('estado-perdida');
+            titulo.innerText = "Resultado de Inversión";
+            lblM.innerText = "Pérdida Mensual:";
+            lblA.innerText = "Pérdida Anual:";
+            displayMensual.classList.remove('texto-ahorro');
+            displayMensual.classList.add('texto-perdida');
+            displayAnual.classList.remove('texto-ahorro');
+            displayAnual.classList.add('texto-perdida');
+        } else {
+            // ESTADO DE AHORRO (VERDE POSITIVO)
+            card.classList.remove('estado-perdida');
+            card.classList.add('estado-ahorro');
+            titulo.innerText = "Ahorro Directo";
+            lblM.innerText = "Ahorro Mensual:";
+            lblA.innerText = "Ahorro Anual:";
+            displayMensual.classList.remove('texto-perdida');
+            displayMensual.classList.add('texto-ahorro');
+            displayAnual.classList.remove('texto-perdida');
+            displayAnual.classList.add('texto-ahorro');
+        }
+
+        // Aquí se aplica el formato con o sin el signo "-"
+        displayMensual.innerText = format(ahorroMensual);
+        displayAnual.innerText = format(ahorroAnual);
+    }
+
+    window.onload = calcularComparativa;
+  </script>
+</body>
+</html>

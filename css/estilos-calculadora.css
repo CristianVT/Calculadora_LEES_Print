@@ -156,7 +156,8 @@
   font-weight: 500;
 }
 
-.input-cell input[type="number"] {
+.input-cell input[type="number"],
+.input-cell select {
   width: 100%;
   padding: 10px 12px;
   background: rgba(255, 255, 255, 0.1);
@@ -171,11 +172,17 @@
   color: rgba(255, 255, 255, 0.55);
 }
 
-.input-cell input[type="number"]:focus {
+.input-cell input[type="number"]:focus,
+.input-cell select:focus {
   outline: none;
   border-color: #2161e7;
   box-shadow: 0 0 0 3px rgba(33, 97, 231, 0.25);
   background: rgba(33, 97, 231, 0.12);
+}
+
+.input-cell select option {
+  background-color: #1c1f2c;
+  color: #ffffff;
 }
 
 .output-cell {
