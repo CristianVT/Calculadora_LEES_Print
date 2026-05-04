@@ -13,6 +13,7 @@
 
     <!-- CSS específico para esta calculadora -->
     <link rel="stylesheet" href="css/estilos-calculadora.css">
+    <link rel="stylesheet" href="css/estilos-tinta.css">
     <style>
       .btn-back {
         background: rgba(255, 255, 255, 0.1);
@@ -50,6 +51,12 @@
       .texto-perdida {
         color: #dc3545 !important;
       }
+      
+      /* Ajustes específicos para la tabla vertical de tinta */
+      .ink-table tbody tr { background-color: #2b3045 !important; }
+      .ink-table tbody tr:nth-child(even) { background-color: #1c1f2c !important; }
+      .ink-table tbody tr.total-row { background-color: rgba(37, 89, 246, 1) !important; }
+      .ink-table tbody tr.total-row td { color: #ffffff !important; }
     </style>
 </head>
 <body class="estilos-calculadora-lees">
@@ -81,7 +88,6 @@
             <td class="concept-cell">Imágenes por examen</td>
             <td colspan="2" class="input-cell" style="text-align: center;">
               <select id="inputImagenes" class="input-number" onchange="calcularComparativa()">
-                <option value="4">4 fotos por paciente</option>
                 <option value="6" selected>6 fotos por paciente</option>
                 <option value="8">8 fotos por paciente</option>
                 <option value="10">10 fotos por paciente</option>
@@ -106,6 +112,54 @@
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <!-- TABLA DE CONSUMO DE TINTA (Estilo idéntico a consumo_tinta.html) -->
+    <section class="tinta-section">
+      <div class="section-title">
+        <h2>Consumo Estimado de Tinta LEES Print</h2>
+      </div>
+      <div class="section-body">
+        <p class="ink-note">Cálculo mensual en mililitros (ml) basado en consumo por impresión.</p>
+        <p class="ink-bottles-note">Cada botella tiene capacidad útil de <strong>70 ml</strong>.</p>
+
+        <div class="table-container">
+          <table class="ink-table data-table">
+            <thead>
+              <tr>
+                <th>Color de Tinta</th>
+                <th style="text-align: right;">Volumen Mensual</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="color-label"><div class="color-circle negro-circle"></div>Negro PB</span></td>
+                <td id="tintaUsNegro" style="text-align: right;">0.000 ml</td>
+              </tr>
+              <tr>
+                <td><span class="color-label"><div class="color-circle gris-circle"></div>Gris</span></td>
+                <td id="tintaUsGris" style="text-align: right;">0.000 ml</td>
+              </tr>
+              <tr>
+                <td><span class="color-label"><div class="color-circle cyan-circle"></div>Cyan</span></td>
+                <td id="tintaUsCyan" style="text-align: right;">0.000 ml</td>
+              </tr>
+              <tr>
+                <td><span class="color-label"><div class="color-circle amarillo-circle"></div>Amarillo</span></td>
+                <td id="tintaUsAmarillo" style="text-align: right;">0.000 ml</td>
+              </tr>
+              <tr>
+                <td><span class="color-label"><div class="color-circle magenta-circle"></div>Magenta</span></td>
+                <td id="tintaUsMagenta" style="text-align: right;">0.000 ml</td>
+              </tr>
+              <tr class="total-row">
+                <td><strong>Total Mensual (US)</strong></td>
+                <td id="tintaUsTotal" style="font-weight: bold; text-align: right;">0.000 ml</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
     <h2 class="section-title">Resumen de Impacto Económico</h2>
@@ -177,11 +231,11 @@
         const pacientes = parseFloat(document.getElementById('inputPacientes').value) || 0;
         const imagenes = parseInt(document.getElementById('inputImagenes').value);
 
-        // 2. Constantes
+        // 2. Constantes de costo
         const COSTO_TERMICO_FOTO = 0.32;
         const COSTO_LEES_FIJO = 1.57;
 
-        // 3. Cálculos
+        // 3. Cálculos de costo
         const costoTradPorPaciente = imagenes * COSTO_TERMICO_FOTO;
         const totalMensualTrad = pacientes * costoTradPorPaciente;
         const totalAnualTrad = totalMensualTrad * 12;
@@ -191,8 +245,35 @@
 
         const ahorroMensual = totalMensualTrad - totalMensualLees;
         const ahorroAnual = ahorroMensual * 12;
+        
+        // --- CÁLCULO DE TINTA ---
+        const consumosUS = {
+            NEGRO_PB: 0.003794,
+            GRIS: 0.000556,
+            CYAN: 0.000238,
+            AMARILLO: 0.000312,
+            MAGENTA: 0.000556
+        };
+        const CONVERSION_MM_TO_ML = 70 / 52.5; // Aproximadamente 1.3333
+        
+        const totalFotosMensual = pacientes * imagenes;
+        
+        const mlNegro = (consumosUS.NEGRO_PB * CONVERSION_MM_TO_ML) * totalFotosMensual;
+        const mlGris = (consumosUS.GRIS * CONVERSION_MM_TO_ML) * totalFotosMensual;
+        const mlCyan = (consumosUS.CYAN * CONVERSION_MM_TO_ML) * totalFotosMensual;
+        const mlAmarillo = (consumosUS.AMARILLO * CONVERSION_MM_TO_ML) * totalFotosMensual;
+        const mlMagenta = (consumosUS.MAGENTA * CONVERSION_MM_TO_ML) * totalFotosMensual;
+        
+        const volumenMensualMl = mlNegro + mlGris + mlCyan + mlAmarillo + mlMagenta;
 
-        // 4. Función de Formateo
+        document.getElementById('tintaUsNegro').innerText = mlNegro.toFixed(3) + " ml";
+        document.getElementById('tintaUsGris').innerText = mlGris.toFixed(3) + " ml";
+        document.getElementById('tintaUsCyan').innerText = mlCyan.toFixed(3) + " ml";
+        document.getElementById('tintaUsAmarillo').innerText = mlAmarillo.toFixed(3) + " ml";
+        document.getElementById('tintaUsMagenta').innerText = mlMagenta.toFixed(3) + " ml";
+        document.getElementById('tintaUsTotal').innerText = volumenMensualMl.toFixed(3) + " ml";
+
+        // 4. Función de Formateo de Moneda
         const format = (num) => {
             const valorFormateado = Math.abs(num).toLocaleString('es-PE', {
                 minimumFractionDigits: 2, 
